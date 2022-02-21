@@ -1,4 +1,4 @@
-package lab5.json;
+package lab5.common.json;
 
 import java.lang.reflect.Type;
 

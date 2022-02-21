@@ -4,4 +4,6 @@
 /lab-server/target/
 *.iml
 .idea
+.vscode
 *.jar
+/test/

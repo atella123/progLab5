@@ -22,6 +22,11 @@ public class Person implements Comparable<Person> {
     private Country nationality; // Поле не может быть null
     private Location location; // Поле не может быть null
 
+    public Person() {
+        setID();
+        setCreationDate();
+    }
+
     public Person(String name, Coordinates coordinates, int height, String passportID, Color eyeColor,
             Country nationality, Location location) {
         setID();
@@ -48,10 +53,10 @@ public class Person implements Comparable<Person> {
     }
 
     public void setName(String name) {
-        if (Validator.isValidName(name)) {
-            this.name = name;
+        if (!Validator.isValidName(name)) {
+            throw new IllegalFieldValueException();
         }
-        throw new IllegalFieldValueException();
+        this.name = name;
     }
 
     public Coordinates getCoordinates() {
@@ -59,10 +64,10 @@ public class Person implements Comparable<Person> {
     }
 
     public void setCoordinates(Coordinates coordinates) {
-        if (Validator.isValidCoordinates(coordinates)) {
-            this.coordinates = coordinates;
+        if (!Validator.isValidCoordinates(coordinates)) {
+            throw new IllegalFieldValueException();
         }
-        throw new IllegalFieldValueException();
+        this.coordinates = coordinates;
     }
 
     public java.time.LocalDate getCreationDate() {
@@ -78,10 +83,10 @@ public class Person implements Comparable<Person> {
     }
 
     public void setHeight(int height) {
-        if (Validator.isValidHeight(height)) {
-            this.height = height;
+        if (!Validator.isValidHeight(height)) {
+            throw new IllegalFieldValueException();
         }
-        throw new IllegalFieldValueException();
+        this.height = height;
     }
 
     public String getPassportID() {
@@ -89,10 +94,10 @@ public class Person implements Comparable<Person> {
     }
 
     public void setPassportID(String passportID) {
-        if (Validator.isValidPassportID(passportID)) {
-            this.passportID = passportID;
+        if (!Validator.isValidPassportID(passportID)) {
+            throw new IllegalFieldValueException();
         }
-        throw new IllegalFieldValueException();
+        this.passportID = passportID;
     }
 
     public Color getEyeColor() {
@@ -116,38 +121,10 @@ public class Person implements Comparable<Person> {
     }
 
     public void setLocation(Location location) {
-        if (Validator.isValidLocation(location)) {
-            this.location = location;
+        if (!Validator.isValidLocation(location)) {
+            throw new IllegalFieldValueException();
         }
-        throw new IllegalFieldValueException();
-    }
-
-    public static class Validator {
-        public static boolean isValidName(String name) {
-            if (Objects.nonNull(name)) {
-                return name.isEmpty();
-            }
-            return false;
-        }
-
-        public static boolean isValidCoordinates(Coordinates coordinates) {
-            return Objects.nonNull(coordinates);
-        }
-
-        public static boolean isValidHeight(int height) {
-            return height > 0;
-        }
-
-        public static boolean isValidPassportID(String passportID) {
-            if (Objects.nonNull(passportID)) {
-                return passportID.length() >= 10;
-            }
-            return false;
-        }
-
-        public static boolean isValidLocation(Location location) {
-            return Objects.nonNull(location);
-        }
+        this.location = location;
     }
 
     @Override
@@ -168,12 +145,16 @@ public class Person implements Comparable<Person> {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         Person other = (Person) obj;
         if (coordinates == null) {
             if (other.coordinates != null)
@@ -224,5 +205,35 @@ public class Person implements Comparable<Person> {
     @Override
     public int compareTo(Person person) {
         return id - person.id;
+    }
+
+    public static class Validator {
+        private static int MIN_H = 10;
+
+        public static boolean isValidName(String name) {
+            if (Objects.nonNull(name)) {
+                return !name.isEmpty();
+            }
+            return false;
+        }
+
+        public static boolean isValidCoordinates(Coordinates coordinates) {
+            return Objects.nonNull(coordinates);
+        }
+
+        public static boolean isValidHeight(int height) {
+            return height > 0;
+        }
+
+        public static boolean isValidPassportID(String passportID) {
+            if (Objects.nonNull(passportID)) {
+                return passportID.length() >= MIN_H;
+            }
+            return false;
+        }
+
+        public static boolean isValidLocation(Location location) {
+            return Objects.nonNull(location);
+        }
     }
 }

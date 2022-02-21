@@ -1,6 +1,6 @@
 package lab5.common.util;
 
 @FunctionalInterface
-public interface LineReader {
+public interface Reader {
     String readLine();
 }

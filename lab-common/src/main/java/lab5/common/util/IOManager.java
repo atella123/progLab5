@@ -1,17 +1,37 @@
-package lab5.parsers;
+package lab5.common.util;
 
 import java.util.Scanner;
 
-import lab5.common.util.LineReader;
-import lab5.common.util.Writter;
+public class IOManager {
 
-public abstract class AbstractParser {
+    Reader reader;
+    Writter writter;
 
-    protected Writter writter = System.out::println;
-    protected LineReader reader = new Scanner(System.in)::nextLine;
-
-    public AbstractParser(Writter writter, LineReader reader) {
+    public IOManager(Writter writter) {
+        reader = () -> new Scanner(System.in).nextLine();
         this.writter = writter;
+    }
+
+    public IOManager(Reader reader) {
+        this.reader = reader;
+        writter = (String s) -> System.out.println(s);
+    }
+
+    public IOManager(Reader reader, Writter writter) {
+        this.reader = reader;
+        this.writter = writter;
+    }
+
+    public IOManager() {
+        reader = () -> new Scanner(System.in).nextLine();
+        writter = (String s) -> System.out.println(s);
+    }
+
+    public Reader getReader() {
+        return reader;
+    }
+
+    public void setReader(Reader reader) {
         this.reader = reader;
     }
 
@@ -23,12 +43,17 @@ public abstract class AbstractParser {
         this.writter = writter;
     }
 
-    public LineReader getReader() {
-        return reader;
-    }
-
-    public void setReader(LineReader reader) {
+    public void setIO(Reader reader, Writter writter) {
         this.reader = reader;
+        this.writter = writter;
+    };
+
+    public void write(String s) {
+        writter.write(s);
+    };
+
+    public String readLine() {
+        return reader.readLine();
     }
 
     @Override
@@ -48,7 +73,7 @@ public abstract class AbstractParser {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        AbstractParser other = (AbstractParser) obj;
+        IOManager other = (IOManager) obj;
         if (reader == null) {
             if (other.reader != null)
                 return false;
@@ -60,11 +85,6 @@ public abstract class AbstractParser {
         } else if (!writter.equals(other.writter))
             return false;
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "AbstractParser";
-    }
+    };
 
 }

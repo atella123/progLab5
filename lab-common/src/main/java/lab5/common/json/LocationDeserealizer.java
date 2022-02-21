@@ -1,4 +1,4 @@
-package lab5.json;
+package lab5.common.json;
 
 import java.lang.reflect.Type;
 import java.util.regex.Matcher;
@@ -9,37 +9,41 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
-import lab5.common.data.Coordinates;
+import lab5.common.data.Location;
 import lab5.common.exceptions.IllegalFieldValueException;
 
-public final class CoordinatesDeserializer implements JsonDeserializer<Coordinates> {
+public final class LocationDeserealizer implements JsonDeserializer<Location> {
 
     /**
      * @param json
      * @param typeOfT
      * @param context
-     * @return Coordinates
+     * @return Location
      * @throws JsonParseException
      */
     @Override
-    public Coordinates deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+    public Location deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
-        Coordinates coordinates = new Coordinates();
+        Location location = new Location();
         String arg = json.getAsString();
-        Pattern p = Pattern.compile("x: (\\d+.?\\d*), y: (\\d*)");
+        Pattern p = Pattern.compile("(\\w+) at x: (\\d+.?\\d*), y: (\\d+)");
         Matcher m = p.matcher(arg);
         m.find();
         try {
-            coordinates.setX(Float.parseFloat(m.group(1)));
+            location.setName(m.group(1));
+        } catch (NumberFormatException | IllegalFieldValueException e) {
+            throw new JsonParseException("Invaild value for location name");
+        }
+        try {
+            location.setX(Float.parseFloat(m.group(2)));
         } catch (NumberFormatException | IllegalFieldValueException e) {
             throw new JsonParseException("Invaild value for float x");
         }
         try {
-            coordinates.setY(Integer.parseInt(m.group(2)));
+            location.setY(Integer.parseInt(m.group(3)));
         } catch (NumberFormatException | IllegalFieldValueException e) {
             throw new JsonParseException("Invalid value for integer y");
         }
-        return coordinates;
+        return location;
     }
-
 }

@@ -1,4 +1,4 @@
-package lab5.json;
+package lab5.common.json;
 
 import java.lang.reflect.Type;
 
@@ -7,9 +7,9 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import lab5.common.data.Location;
+import lab5.common.data.Coordinates;
 
-public final class LocationSerealizer implements JsonSerializer<Location> {
+public final class CoordinatesSerealizer implements JsonSerializer<Coordinates> {
 
     /**
      * @param src
@@ -18,9 +18,8 @@ public final class LocationSerealizer implements JsonSerializer<Location> {
      * @return JsonElement
      */
     @Override
-    public JsonElement serialize(Location src, Type typeOfSrc, JsonSerializationContext context) {
-        return new JsonPrimitive(src.getName() + " at x: " + src.getX() + ", y: " + src.getY());
-
+    public JsonElement serialize(Coordinates src, Type typeOfSrc, JsonSerializationContext context) {
+        return new JsonPrimitive("x: " + src.getX() + ", y: " + src.getY());
     }
 
 }
