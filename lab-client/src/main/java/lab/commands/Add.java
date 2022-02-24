@@ -16,7 +16,7 @@ public final class Add extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        this.getManager().getCollectionCopy().add(PersonParser.parsePerson(0, this.getIO()));
+        this.getManager().add(PersonParser.parsePerson(this.getIO()));
         return CommandResponse.SUCCESS;
     }
 

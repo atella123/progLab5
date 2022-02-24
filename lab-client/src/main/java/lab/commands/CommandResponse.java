@@ -1,7 +1,7 @@
 package lab.commands;
 
 public enum CommandResponse {
-    // TODO: Make class, not enum
+    // TODO: Make it class, not enum
     SUCCESS("Successfully executed command"),
     ILLEGAL_ARGUMENT("Illegal argument"),
     FILE_NOT_FOUND("File not found"),

@@ -17,13 +17,13 @@ public final class AddIfMax extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        Person p = PersonParser.parsePerson(0, this.getIO());
+        Person p = PersonParser.parsePerson(this.getIO());
         boolean isMax = true;
         for (Person i : this.getManager().getCollectionCopy()) {
             isMax = p.compareTo(i) > 0;
         }
         if (isMax) {
-            this.getManager().getCollectionCopy().add(p);
+            this.getManager().add(p);
         }
         return CommandResponse.SUCCESS;
     }

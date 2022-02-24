@@ -1,9 +1,5 @@
 package lab.commands;
 
-import java.util.Collection;
-import java.util.HashSet;
-
-import lab.common.data.Person;
 import lab.common.data.PersonCollectionManager;
 import lab.io.IOManager;
 import lab.parsers.PersonParser;
@@ -20,14 +16,7 @@ public final class RemoveGreater extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        Person p = PersonParser.parsePerson(0, this.getIO());
-        Collection<Person> toRemove = new HashSet<>();
-        for (Person i : this.getManager().getCollectionCopy()) {
-            if (p.compareTo(i) < 0) {
-                toRemove.add(i);
-            }
-        }
-        this.getManager().getCollectionCopy().removeAll(toRemove);
+        this.getManager().removeIf(person -> PersonParser.parsePerson(this.getIO()).compareTo(person) < 0);
         return CommandResponse.SUCCESS;
     }
 

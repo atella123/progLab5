@@ -4,7 +4,6 @@ import lab.common.data.Country;
 import lab.common.data.Person;
 import lab.common.data.PersonCollectionManager;
 import lab.io.IOManager;
-import lab.parsers.BasicParser;
 
 public final class FilterLessThanNationality extends CollectionCommand {
 
@@ -22,7 +21,6 @@ public final class FilterLessThanNationality extends CollectionCommand {
         try {
             country = Country.valueOf(arg.toUpperCase());
         } catch (Exception e) {
-            country = BasicParser.readEnumValue(this.getIO(), Country.class);
             return CommandResponse.ILLEGAL_ARGUMENT;
         }
         for (Person i : this.getManager().getCollectionCopy()) {

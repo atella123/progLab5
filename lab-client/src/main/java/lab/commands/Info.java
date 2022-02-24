@@ -17,7 +17,7 @@ public final class Info extends CollectionCommand {
     public CommandResponse execute(String arg) {
         StringBuilder builder = new StringBuilder();
         builder.append("Collection type: ");
-        builder.append(this.getManager().getCollectionCopy().getClass().toString());
+        builder.append(this.getManager().getCollectionType());
         builder.append("\nInit date: ");
         builder.append(this.getManager().getInitDate().toString());
         builder.append("\nElement count: ");

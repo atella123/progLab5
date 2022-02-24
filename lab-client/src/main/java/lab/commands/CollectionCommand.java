@@ -17,10 +17,6 @@ public abstract class CollectionCommand extends Command {
         this.manager = manager;
     }
 
-    public PersonCollectionManager getCollection() {
-        return manager;
-    }
-
     @Override
     public int hashCode() {
         final int prime = 31;

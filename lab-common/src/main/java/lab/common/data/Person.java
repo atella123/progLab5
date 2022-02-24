@@ -192,7 +192,7 @@ public class Person implements Comparable<Person> {
 
     @Override
     public int compareTo(Person person) {
-        return id - person.id;
+        return this.name.length() - person.name.length();
     }
 
     public static class Validator {

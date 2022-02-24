@@ -1,6 +1,7 @@
 package lab.commands;
 
-import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import lab.common.data.Person;
 import lab.common.data.PersonCollectionManager;
@@ -25,13 +26,11 @@ public final class Update extends CollectionCommand {
         } catch (Exception e) {
             return CommandResponse.ILLEGAL_ARGUMENT;
         }
-        Collection<Person> collection = this.getManager().getCollectionCopy();
-        for (Person i : collection) {
-            if (i.getID().equals(id)) {
-                // TODO ADD NEXT ID
-                this.getManager().updatePerson(i, PersonParser.parsePerson(0, this.getIO()));
-                return CommandResponse.SUCCESS;
-            }
+        Set<Person> personToUpdate = getManager().getCollectionCopy().stream().filter(p -> p.getID().equals(id))
+                .collect(Collectors.toSet());
+        if (!personToUpdate.isEmpty()) {
+            personToUpdate.forEach(p -> getManager().updatePerson(p, PersonParser.parsePerson(getIO())));
+            return CommandResponse.SUCCESS;
         }
         return CommandResponse.NO_SUCH_ELEMENT;
     }

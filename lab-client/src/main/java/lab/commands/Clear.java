@@ -15,7 +15,7 @@ public final class Clear extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        this.getManager().getCollectionCopy().clear();
+        this.getManager().clear();
         return CommandResponse.SUCCESS;
     }
 

@@ -29,6 +29,10 @@ public class PersonCollectionManager {
         this.collection.add(person);
     }
 
+    public Integer nextID() {
+        return idSet.last() + 1;
+    }
+
     public void remove(Person person) {
         this.collection.remove(person);
     }
@@ -55,6 +59,15 @@ public class PersonCollectionManager {
             }
         }
         throw new NullPointerException();
+    }
+
+    @SuppressWarnings("rawtypes")
+    public Class<? extends Collection> getCollectionType() {
+        return collection.getClass();
+    }
+
+    public void clear() {
+        collection.clear();
     }
 
     public void setCollection(Collection<Person> collection) {

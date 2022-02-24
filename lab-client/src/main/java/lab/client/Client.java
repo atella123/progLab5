@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
-import java.util.TreeSet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,6 +45,7 @@ public final class Client {
     private Client() {
     }
 
+    @SuppressWarnings("unchecked")
     public static void main(String[] args) {
         String json;
         StringBuilder jsonBuilder = new StringBuilder();
@@ -60,6 +60,7 @@ public final class Client {
             }
 
             json = jsonBuilder.toString();
+            // this cast is ok
             collection = gson.fromJson(json, collection.getClass());
         } catch (Exception e) {
             System.out.println("Error when reading file");
@@ -80,9 +81,9 @@ public final class Client {
             }
         });
 
-        // runner.setIo(io);
-        // runner.run();
-        // scanner.close();
+        runner.setIo(io);
+        runner.run();
+        scanner.close();
     }
 
     public static Gson createGson(Collection<Person> collection) {

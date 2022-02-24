@@ -12,8 +12,7 @@ public final class PersonParser {
     private PersonParser() {
     }
 
-    public static Person parsePerson(Integer nextID, IOManager io) {
-        // TODO FIX ALL USAGES
+    public static Person parsePerson(IOManager io) {
         String name = parseName(io);
         Coordinates coordinates = parseCoordinates(io);
         int height = parseHeight(io);
@@ -22,7 +21,6 @@ public final class PersonParser {
         Country nationality = parseNationality(io);
         Location location = parseLocation(io);
         Person p = new Person(name, coordinates, height, passportID, eyeColor, nationality, location);
-        p.setID(nextID);
         return p;
     }
 

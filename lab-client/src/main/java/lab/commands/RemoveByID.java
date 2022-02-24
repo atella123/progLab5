@@ -1,6 +1,5 @@
 package lab.commands;
 
-import lab.common.data.Person;
 import lab.common.data.PersonCollectionManager;
 import lab.io.IOManager;
 
@@ -22,11 +21,9 @@ public final class RemoveByID extends CollectionCommand {
         } catch (Exception e) {
             return CommandResponse.ILLEGAL_ARGUMENT;
         }
-        for (Person i : this.getManager().getCollectionCopy()) {
-            if (i.getID().equals(id)) {
-                this.getManager().getCollectionCopy();
-                return CommandResponse.SUCCESS;
-            }
+        if (this.getManager().getCollectionCopy().stream().anyMatch(person -> person.getID().equals(id))) {
+            this.getManager().removeIf(person -> person.getID().equals(id));
+            return CommandResponse.SUCCESS;
         }
         return CommandResponse.NO_SUCH_ELEMENT;
     }
