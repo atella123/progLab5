@@ -1,6 +1,7 @@
 package lab.common.json;
 
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -27,14 +28,16 @@ public final class PersonDeserializer implements JsonDeserializer<Person> {
     public Person deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
-        Person p = new Person();
-        p.setName(jsonObject.get("name").getAsString());
-        p.setCoordinates(context.deserialize(jsonObject.get("coordinates"), Coordinates.class));
-        p.setHeight(jsonObject.get("height").getAsInt());
-        p.setPassportID(jsonObject.get("passportID").getAsString());
-        p.setEyeColor(Color.valueOf(jsonObject.get("eyeColor").getAsString()));
-        p.setNationality(Country.valueOf(jsonObject.get("nationality").getAsString()));
-        p.setLocation(context.deserialize(jsonObject.get("location"), Location.class));
+        Person p = new Person(
+                jsonObject.get("name").getAsString(),
+                context.deserialize(jsonObject.get("coordinates"), Coordinates.class),
+                jsonObject.get("height").getAsInt(),
+                jsonObject.get("passportID").getAsString(),
+                Color.valueOf(jsonObject.get("eyeColor").getAsString()),
+                Country.valueOf(jsonObject.get("nationality").getAsString()),
+                context.deserialize(jsonObject.get("location"), Location.class));
+        p.setID(jsonObject.get("id").getAsInt());
+        p.setCreationDate(context.deserialize(jsonObject.get("creationDate"), LocalDate.class));
         return p;
     }
 

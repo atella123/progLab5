@@ -7,14 +7,13 @@ import lab.common.exceptions.IllegalFieldValueException;
 
 public class Person implements Comparable<Person> {
 
-    private static Integer lastID = 0;
-
     private Integer id; // Поле не может быть null, Значение поля должно быть больше 0, Значение этого
                         // поля должно быть уникальным, Значение этого поля должно генерироваться
                         // автоматически
     private String name; // Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; // Поле не может быть null
-    private java.time.LocalDate creationDate; // Поле не может быть null, Значение этого поля должно генерироваться
+    private java.time.LocalDate creationDate; // Поле не может быть null, Значение этого поля должно
+                                              // генерироваться
                                               // автоматически
     private int height; // Значение поля должно быть больше 0
     private String passportID; // Длина строки должна быть не меньше 10, Поле может быть null
@@ -22,14 +21,9 @@ public class Person implements Comparable<Person> {
     private Country nationality; // Поле не может быть null
     private Location location; // Поле не может быть null
 
-    public Person() {
-        setID();
-        setCreationDate();
-    }
-
     public Person(String name, Coordinates coordinates, int height, String passportID, Color eyeColor,
             Country nationality, Location location) {
-        setID();
+        setID(id);
         setName(name);
         setCoordinates(coordinates);
         setCreationDate();
@@ -44,8 +38,8 @@ public class Person implements Comparable<Person> {
         return id;
     }
 
-    private void setID() {
-        this.id = lastID++;
+    public void setID(Integer newId) {
+        this.id = newId;
     }
 
     public String getName() {
@@ -74,8 +68,12 @@ public class Person implements Comparable<Person> {
         return creationDate;
     }
 
-    private void setCreationDate() {
+    public void setCreationDate() {
         creationDate = LocalDate.now();
+    }
+
+    public void setCreationDate(LocalDate date) {
+        creationDate = date;
     }
 
     public int getHeight() {

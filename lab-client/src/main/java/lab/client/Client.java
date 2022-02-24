@@ -2,47 +2,44 @@ package lab.client;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import lab.common.commands.Add;
-import lab.common.commands.AddIfMax;
-import lab.common.commands.Clear;
-import lab.common.commands.Command;
-import lab.common.commands.ExecuteScript;
-import lab.common.commands.Exit;
-import lab.common.commands.FilterLessThanNationality;
-import lab.common.commands.GroupCountingByPassportID;
-import lab.common.commands.Help;
-import lab.common.commands.History;
-import lab.common.commands.Info;
-import lab.common.commands.MinByCoordinates;
-import lab.common.commands.RemoveByID;
-import lab.common.commands.RemoveGreater;
-import lab.common.commands.Save;
-import lab.common.commands.Show;
-import lab.common.commands.Update;
-import lab.common.data.Coordinates;
-import lab.common.data.Location;
+import lab.commands.Add;
+import lab.commands.AddIfMax;
+import lab.commands.Clear;
+import lab.commands.Command;
+import lab.commands.ExecuteScript;
+import lab.commands.Exit;
+import lab.commands.FilterLessThanNationality;
+import lab.commands.GroupCountingByPassportID;
+import lab.commands.Help;
+import lab.commands.History;
+import lab.commands.Info;
+import lab.commands.MinByCoordinates;
+import lab.commands.RemoveByID;
+import lab.commands.RemoveGreater;
+import lab.commands.Save;
+import lab.commands.Show;
+import lab.commands.Update;
 import lab.common.data.Person;
-import lab.common.json.CoordinatesDeserializer;
-import lab.common.json.CoordinatesSerealizer;
-import lab.common.json.LocationDeserealizer;
-import lab.common.json.LocationSerealizer;
+import lab.common.data.PersonCollectionManager;
+import lab.common.json.LocalDateDesetializer;
+import lab.common.json.PersonCollectionDeserializer;
 import lab.common.json.PersonCollectionSereailzer;
 import lab.common.json.PersonDeserializer;
 import lab.common.json.PersonSerealizer;
-import lab.common.json.PersonCollectionDeserializer;
-import lab.common.util.CollectionManager;
-import lab.common.util.CommandManager;
-import lab.common.util.CommandRunner;
-import lab.common.util.IOManager;
-import lab.common.util.Reader;
+import lab.io.IOManager;
+import lab.io.Reader;
+import lab.util.CommandManager;
+import lab.util.CommandRunner;
 
 public final class Client {
 
@@ -52,6 +49,8 @@ public final class Client {
     public static void main(String[] args) {
         String json;
         StringBuilder jsonBuilder = new StringBuilder();
+        Collection<Person> collection = new HashSet<>();
+        Gson gson = createGson(collection);
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(args[0]))) {
             String line = bufferedReader.readLine();
@@ -59,24 +58,20 @@ public final class Client {
                 jsonBuilder.append(line + "\n");
                 line = bufferedReader.readLine();
             }
+
+            json = jsonBuilder.toString();
+            collection = gson.fromJson(json, collection.getClass());
         } catch (Exception e) {
             System.out.println("Error when reading file");
             return;
         }
 
-        json = jsonBuilder.toString();
-
-        Collection<Person> collection = new HashSet<>();
-
-        Gson gson = createGson();
-
-        collection = gson.fromJson(json, collection.getClass());
-
-        CollectionManager<Person> manager = new CollectionManager<>(collection);
+        PersonCollectionManager manager = new PersonCollectionManager(collection);
         CommandManager commandManager = new CommandManager();
         CommandRunner runner = new CommandRunner(commandManager);
 
-        commandManager.setCommands(createCommandsMap(manager, gson, commandManager, runner));
+        commandManager.setCommands(createCommandsMap(manager, gson, commandManager,
+                runner));
         Scanner scanner = new Scanner(System.in);
         IOManager io = new IOManager(new Reader() {
             public String readLine() {
@@ -84,26 +79,24 @@ public final class Client {
                 return scanner.nextLine();
             }
         });
-        runner.setIo(io);
-        runner.run();
-        scanner.close();
+
+        // runner.setIo(io);
+        // runner.run();
+        // scanner.close();
     }
 
-    public static Gson createGson() {
+    public static Gson createGson(Collection<Person> collection) {
         return new GsonBuilder().setPrettyPrinting()
-                .registerTypeAdapter(new HashSet<Person>().getClass(),
+                .registerTypeAdapter(collection.getClass(),
                         new PersonCollectionSereailzer())
-                .registerTypeAdapter(new HashSet<Person>().getClass(),
+                .registerTypeAdapter(collection.getClass(),
                         new PersonCollectionDeserializer())
                 .registerTypeAdapter(Person.class, new PersonSerealizer())
-                .registerTypeAdapter(Person.class, new PersonDeserializer())
-                .registerTypeAdapter(Location.class, new LocationSerealizer())
-                .registerTypeAdapter(Location.class, new LocationDeserealizer())
-                .registerTypeAdapter(Coordinates.class, new CoordinatesSerealizer())
-                .registerTypeAdapter(Coordinates.class, new CoordinatesDeserializer()).create();
+                .registerTypeAdapter(LocalDate.class, new LocalDateDesetializer())
+                .registerTypeAdapter(Person.class, new PersonDeserializer()).create();
     }
 
-    public static HashMap<String, Command> createCommandsMap(CollectionManager<Person> manager, Gson gson,
+    public static HashMap<String, Command> createCommandsMap(PersonCollectionManager manager, Gson gson,
             CommandManager commandManager, CommandRunner runner) {
         HashMap<String, Command> cmds = new HashMap<>();
         cmds.put("help", new Help(cmds.values()));

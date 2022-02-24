@@ -21,10 +21,10 @@ public final class PersonSerealizer implements JsonSerializer<Person> {
     public JsonElement serialize(Person src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
 
-        // result.addProperty("id", src.getID());
+        result.addProperty("id", src.getID());
         result.addProperty("name", src.getName());
         result.add("coordinates", context.serialize(src.getCoordinates()));
-        // result.addProperty("creationDate", src.getCreationDate().toString());
+        result.addProperty("creationDate", src.getCreationDate().toString());
         result.addProperty("height", src.getHeight());
         result.addProperty("passportID", src.getPassportID());
         result.addProperty("eyeColor", src.getEyeColor().toString());

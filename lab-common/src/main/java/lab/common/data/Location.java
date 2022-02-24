@@ -10,12 +10,9 @@ public class Location {
     private String name; // Поле не может быть null
 
     public Location(Float x, long y, String name) {
-        this.x = x;
-        this.y = y;
-        this.name = name;
-    }
-
-    public Location() {
+        setX(x);
+        setY(y);
+        setName(name);
     }
 
     public Float getX() {
