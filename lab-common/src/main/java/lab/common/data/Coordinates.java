@@ -20,7 +20,7 @@ public class Coordinates implements Comparable<Coordinates> {
         return x;
     }
 
-    public void setX(Float x) {
+    private void setX(Float x) {
         if (!Validator.isValidX(x)) {
             throw new IllegalFieldValueException();
         }
@@ -31,7 +31,7 @@ public class Coordinates implements Comparable<Coordinates> {
         return y;
     }
 
-    public void setY(Integer y) {
+    private void setY(Integer y) {
         if (!Validator.isValidY(y)) {
             throw new IllegalFieldValueException();
         }
@@ -86,8 +86,11 @@ public class Coordinates implements Comparable<Coordinates> {
         return (Float.floatToIntBits(this.x) + this.y) - (Float.floatToIntBits(coordinates.x) + coordinates.y);
     }
 
-    public static class Validator {
+    public static final class Validator {
         private static final int MIN_Y = -322;
+
+        private Validator() {
+        }
 
         public static boolean isValidX(Float x) {
             return Objects.nonNull(x);

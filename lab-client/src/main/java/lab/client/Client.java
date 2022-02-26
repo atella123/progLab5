@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Scanner;
 
 import com.google.gson.Gson;
@@ -36,7 +37,6 @@ import lab.common.json.PersonCollectionSereailzer;
 import lab.common.json.PersonDeserializer;
 import lab.common.json.PersonSerealizer;
 import lab.io.IOManager;
-import lab.io.Reader;
 import lab.util.CommandManager;
 import lab.util.CommandRunner;
 
@@ -58,9 +58,7 @@ public final class Client {
                 jsonBuilder.append(line + "\n");
                 line = bufferedReader.readLine();
             }
-
             json = jsonBuilder.toString();
-            // this cast is ok
             collection = gson.fromJson(json, collection.getClass());
         } catch (Exception e) {
             System.out.println("Error when reading file");
@@ -71,19 +69,17 @@ public final class Client {
         CommandManager commandManager = new CommandManager();
         CommandRunner runner = new CommandRunner(commandManager);
 
-        commandManager.setCommands(createCommandsMap(manager, gson, commandManager,
-                runner));
+        commandManager.setCommands(createCommandsMap(manager, gson, runner));
         Scanner scanner = new Scanner(System.in);
-        IOManager io = new IOManager(new Reader() {
-            public String readLine() {
-                System.out.print("$ ");
-                return scanner.nextLine();
-            }
+        IOManager io = new IOManager(() -> {
+            System.out.print("% ");
+            return scanner.nextLine();
         });
 
-        runner.setIo(io);
+        runner.setIO(io);
         runner.run();
         scanner.close();
+
     }
 
     public static Gson createGson(Collection<Person> collection) {
@@ -97,8 +93,8 @@ public final class Client {
                 .registerTypeAdapter(Person.class, new PersonDeserializer()).create();
     }
 
-    public static HashMap<String, Command> createCommandsMap(PersonCollectionManager manager, Gson gson,
-            CommandManager commandManager, CommandRunner runner) {
+    public static Map<String, Command> createCommandsMap(PersonCollectionManager manager, Gson gson,
+            CommandRunner runner) {
         HashMap<String, Command> cmds = new HashMap<>();
         cmds.put("help", new Help(cmds.values()));
         cmds.put("info", new Info(manager));
@@ -114,7 +110,7 @@ public final class Client {
         cmds.put("remove_greater", new RemoveGreater(manager));
         cmds.put("history", new History(runner));
         cmds.put("min_by_coordinates", new MinByCoordinates(manager));
-        cmds.put("group_counting_by_passport_i_d", new GroupCountingByPassportID(manager));
+        cmds.put("group_counting_by_passport_id", new GroupCountingByPassportID(manager));
         cmds.put("filter_less_than_nationality", new FilterLessThanNationality(manager));
         return cmds;
     }

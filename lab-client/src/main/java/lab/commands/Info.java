@@ -15,14 +15,15 @@ public final class Info extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Collection type: ");
-        builder.append(this.getManager().getCollectionType());
-        builder.append("\nInit date: ");
-        builder.append(this.getManager().getInitDate().toString());
-        builder.append("\nElement count: ");
-        builder.append(this.getManager().getCollectionCopy().size());
-        this.getIO().write(builder.toString());
+        getIO().write(
+                new StringBuilder()
+                        .append("Collection type: ")
+                        .append(getManager().getCollectionType())
+                        .append("\nInit date: ")
+                        .append(getManager().getInitDate().toString())
+                        .append("\nElement count: ")
+                        .append(getManager().getCollectionCopy().size())
+                        .toString());
         return new CommandResponse(CommandResult.SUCCESS);
     }
 
@@ -34,5 +35,5 @@ public final class Info extends CollectionCommand {
     @Override
     public String getMan() {
         return "info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)";
-    };
+    }
 }

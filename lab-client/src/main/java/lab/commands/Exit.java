@@ -14,5 +14,5 @@ public final class Exit extends Command {
 
     public String getMan() {
         return "exit : завершить программу (без сохранения в файл)";
-    };
+    }
 }

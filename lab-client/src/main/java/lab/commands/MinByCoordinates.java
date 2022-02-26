@@ -1,8 +1,7 @@
 package lab.commands;
 
-import java.util.Collection;
+import java.util.Optional;
 
-import lab.common.data.Coordinates;
 import lab.common.data.Person;
 import lab.common.data.PersonCollectionManager;
 import lab.io.IOManager;
@@ -19,17 +18,10 @@ public final class MinByCoordinates extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        Collection<Person> collection = this.getManager().getCollectionCopy();
-        if (collection.size() > 0) {
-            Coordinates minC = new Coordinates(Float.MAX_VALUE, Integer.MAX_VALUE);
-            Person minP = null;
-            for (Person i : collection) {
-                if (i.getCoordinates().compareTo(minC) < 0) {
-                    minP = i;
-                    minC = i.getCoordinates();
-                }
-            }
-            this.getIO().write(minP.toString());
+        Optional<Person> minPerson = getManager().getCollectionCopy().stream()
+                .min((person1, person2) -> person2.getCoordinates().compareTo(person1.getCoordinates()));
+        if (minPerson.isPresent()) {
+            getIO().write(minPerson.get().toString());
             return new CommandResponse(CommandResult.SUCCESS);
         }
         return new CommandResponse(CommandResult.ERROR, "Collection is empty");

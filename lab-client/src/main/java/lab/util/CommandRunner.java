@@ -1,7 +1,7 @@
 package lab.util;
 
 import java.util.Collection;
-import java.util.Queue;
+import java.util.Objects;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import lab.commands.Command;
@@ -11,10 +11,10 @@ import lab.io.IOManager;
 
 public class CommandRunner {
 
+    private static final Integer HISTORY_SIZE = 11;
     private IOManager io;
     private CommandManager cmds;
-    private final Integer historySize = 11;
-    private Queue<Command> history = new ArrayBlockingQueue<>(historySize);
+    private ArrayBlockingQueue<Command> history = new ArrayBlockingQueue<>(HISTORY_SIZE);
 
     public CommandRunner(CommandManager cmds) {
         this.io = new IOManager();
@@ -30,20 +30,27 @@ public class CommandRunner {
         CommandResponse resp = null;
         do {
             try {
-                String[] cmd = parseCommand(io.readLine());
-                resp = run(cmd[0], cmd[1]);
-                if (resp.hasPrintableResult()) {
-                    io.write(resp.getMessage());
+                String nextLine = io.readLine();
+                if (Objects.isNull(nextLine)) {
+                    return;
                 }
+                String[] cmd = parseCommand(nextLine);
+                resp = runCommand(cmds.get(cmd[0]), cmd[1]);
             } catch (NullPointerException e) {
-                io.write("Unknown command");
+                resp = new CommandResponse(CommandResult.ERROR, "Unknown command");
+            }
+            if (resp.hasPrintableResult() && !resp.getResult().equals(CommandResult.SUCCESS)) {
+                io.write(resp.getMessage());
             }
         } while (!resp.getResult().equals(CommandResult.END));
-    };
+    }
 
-    public CommandResponse run(String cmd, String arg) {
-        history.add(cmds.get(cmd));
-        return cmds.get(cmd).execute(arg);
+    public CommandResponse runCommand(Command cmd, String arg) {
+        if (history.remainingCapacity() == 0) {
+            history.poll();
+        }
+        history.add(cmd);
+        return cmd.execute(arg);
     }
 
     public Collection<Command> getHistory() {
@@ -51,14 +58,14 @@ public class CommandRunner {
     }
 
     public String[] parseCommand(String arg) {
-        String[] cmd = {arg.split("\\s+", 2)[0], null};
+        String[] cmd = {arg.split("\\s+", 2)[0].replace(" ", ""), null};
         if (arg.matches("\\w+\\s+.+")) {
             cmd[1] = arg.split(" +", 2)[1];
         }
         return cmd;
     }
 
-    public IOManager getIo() {
+    public IOManager getIO() {
         return io;
     }
 
@@ -66,7 +73,7 @@ public class CommandRunner {
         return cmds;
     }
 
-    public void setIo(IOManager io) {
-        this.io = io;
+    public void setIO(IOManager newIO) {
+        this.io = newIO;
     }
 }

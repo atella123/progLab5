@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.Stack;
 
 import lab.common.data.PersonCollectionManager;
@@ -16,8 +15,7 @@ public final class ExecuteScript extends CollectionCommand {
 
     private CommandRunner runner;
     private Stack<File> bannedFiles = new Stack<>();
-    private Stack<IOManager> oldIO = new Stack<>();
-    private BufferedReader bufferedReader;
+    private Stack<IOManager[]> oldIO = new Stack<>();
 
     public ExecuteScript(PersonCollectionManager manager, CommandRunner runner) {
         super(manager);
@@ -31,34 +29,25 @@ public final class ExecuteScript extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        try {
-            File file = new File(arg);
-            FileReader fileReader = new FileReader(file);
-            this.setIO(createReader(fileReader), this.getIO().getWritter());
-            bannedFiles.push(file);
+        File file = new File(arg);
+        bannedFiles.push(file);
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file));) {
+            oldIO.push(new IOManager[] {runner.getIO(), runner.getCommandManager().getIO()});
+            IOManager newIO = new IOManager(createReader(bufferedReader), getIO().getWritter());
+            runner.setIO(newIO);
+            runner.getCommandManager().setIO(newIO);
+            runner.run();
+            runner.setIO(oldIO.peek()[0]);
+            runner.getCommandManager().setIO(oldIO.pop()[1]);
+            return new CommandResponse(CommandResult.SUCCESS);
         } catch (IOException e) {
             return new CommandResponse(CommandResult.ERROR, "Unable to read file");
+        } finally {
+            bannedFiles.pop();
         }
-        oldIO.push(runner.getCommandManager().getIO());
-        runner.getCommandManager().setIO(this.getIO());
-        String line;
-        CommandResponse resp = null;
-        String[] parsedLine;
-        do {
-            line = this.getIO().readLine();
-            if (Objects.isNull(line)) {
-                break;
-            }
-            parsedLine = runner.parseCommand(line);
-            resp = runner.run(parsedLine[0], parsedLine[1]);
-        } while (!resp.getResult().equals(CommandResult.END));
-        runner.getCommandManager().setIO(oldIO.pop());
-        bannedFiles.pop();
-        return new CommandResponse(CommandResult.SUCCESS);
     }
 
-    private Reader createReader(FileReader fileReader) {
-        bufferedReader = new BufferedReader(fileReader);
+    private Reader createReader(BufferedReader bufferedReader) {
         return () -> {
             try {
                 return bufferedReader.readLine();
@@ -76,5 +65,51 @@ public final class ExecuteScript extends CollectionCommand {
     @Override
     public String getMan() {
         return "execute_script file_name : считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((bannedFiles == null) ? 0 : bannedFiles.hashCode());
+        result = prime * result + ((oldIO == null) ? 0 : oldIO.hashCode());
+        result = prime * result + ((runner == null) ? 0 : runner.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ExecuteScript other = (ExecuteScript) obj;
+        if (bannedFiles == null) {
+            if (other.bannedFiles != null) {
+                return false;
+            }
+        } else if (!bannedFiles.equals(other.bannedFiles)) {
+            return false;
+        }
+        if (oldIO == null) {
+            if (other.oldIO != null) {
+                return false;
+            }
+        } else if (!oldIO.equals(other.oldIO)) {
+            return false;
+        }
+        if (runner == null) {
+            if (other.runner != null) {
+                return false;
+            }
+        } else if (!runner.equals(other.runner)) {
+            return false;
+        }
+        return true;
     }
 }

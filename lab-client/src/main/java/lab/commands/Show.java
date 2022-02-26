@@ -16,10 +16,14 @@ public final class Show extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        this.getIO().write("Person manager elements:");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Person manager elements:");
         for (Person i : this.getManager().getCollectionCopy()) {
-            this.getIO().write(i.toString());
+            stringBuilder.append(i.toString())
+                    .append("\n");
         }
+        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        getIO().write(stringBuilder.toString());
         return new CommandResponse(CommandResult.SUCCESS);
     }
 
@@ -31,5 +35,5 @@ public final class Show extends CollectionCommand {
     @Override
     public String getMan() {
         return "show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении";
-    };
+    }
 }

@@ -1,5 +1,7 @@
 package lab.commands;
 
+import java.util.stream.Collectors;
+
 import lab.common.data.Country;
 import lab.common.data.Person;
 import lab.common.data.PersonCollectionManager;
@@ -23,11 +25,9 @@ public final class FilterLessThanNationality extends CollectionCommand {
         } catch (Exception e) {
             return new CommandResponse(CommandResult.ERROR, "Illegal argument");
         }
-        for (Person i : getManager().getCollectionCopy()) {
-            if (i.getNationality().compareTo(country) < 0) {
-                getIO().write(i.toString());
-            }
-        }
+        getIO().write(getManager().getCollectionCopy().stream()
+                .filter(person -> person.getNationality().compareTo(country) < 0).map(Person::toString)
+                .collect(Collectors.joining("\n")));
         return new CommandResponse(CommandResult.SUCCESS);
     }
 
@@ -38,5 +38,5 @@ public final class FilterLessThanNationality extends CollectionCommand {
 
     public String getMan() {
         return "filter_less_than_nationality nationality : вывести элементы, значение поля nationality которых меньше заданного";
-    };
+    }
 }

@@ -19,8 +19,8 @@ public final class Add extends CollectionCommand {
     @Override
     public CommandResponse execute(String arg) {
         try {
-            Person p = PersonParser.parsePerson(this.getIO());
-            this.getManager().add(p);
+            Person p = PersonParser.parsePerson(getIO());
+            getManager().add(p);
             return new CommandResponse(CommandResult.SUCCESS, new Person[] {p}, new Person[0]);
         } catch (StringIsNullException e) {
             return new CommandResponse(CommandResult.END, "Person not parsed");

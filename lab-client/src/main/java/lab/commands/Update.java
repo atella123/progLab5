@@ -23,7 +23,7 @@ public final class Update extends CollectionCommand {
     public CommandResponse execute(String arg) {
         Integer id;
         try {
-            id = Integer.parseInt(arg.replaceAll(" ", ""));
+            id = Integer.parseInt(arg.replace(" ", ""));
         } catch (Exception e) {
             return new CommandResponse(CommandResult.ERROR, "Illegal argument:\t" + arg);
         }
@@ -48,5 +48,5 @@ public final class Update extends CollectionCommand {
     @Override
     public String getMan() {
         return "update id {element} : обновить значение элемента коллекции, id которого равен заданному";
-    };
+    }
 }

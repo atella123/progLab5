@@ -19,7 +19,7 @@ public class Location {
         return x;
     }
 
-    public void setX(Float x) {
+    private void setX(Float x) {
         if (!Validator.isValidX(x)) {
             throw new IllegalFieldValueException();
         }
@@ -30,7 +30,7 @@ public class Location {
         return y;
     }
 
-    public void setY(long y) {
+    private void setY(long y) {
         this.y = y;
     }
 
@@ -38,7 +38,7 @@ public class Location {
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         if (!Validator.isValidName(name)) {
             throw new IllegalFieldValueException();
         }
@@ -67,24 +67,13 @@ public class Location {
             return false;
         }
         Location other = (Location) obj;
-        if (name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else if (!name.equals(other.name)) {
+        if (!name.equals(other.name)) {
             return false;
         }
-        if (x == null) {
-            if (other.x != null) {
-                return false;
-            }
-        } else if (!x.equals(other.x)) {
+        if (!x.equals(other.x)) {
             return false;
         }
-        if (y != other.y) {
-            return false;
-        }
-        return true;
+        return y != other.y;
     }
 
     @Override
@@ -92,7 +81,10 @@ public class Location {
         return "Location [name=" + name + ", x=" + x + ", y=" + y + "]";
     }
 
-    public static class Validator {
+    public static final class Validator {
+        private Validator() {
+        }
+
         public static boolean isValidX(Float x) {
             return Objects.nonNull(x);
         }

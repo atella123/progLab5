@@ -4,17 +4,16 @@ import java.util.Scanner;
 
 public class IOManager {
 
-    private Reader reader;
-    private Writter writter;
+    private Scanner scanner = new Scanner(System.in);
+    private Reader reader = scanner::nextLine;
+    private Writter writter = System.out::println;
 
     public IOManager(Writter writter) {
-        reader = () -> new Scanner(System.in).nextLine();
         this.writter = writter;
     }
 
     public IOManager(Reader reader) {
         this.reader = reader;
-        writter = (String s) -> System.out.println(s);
     }
 
     public IOManager(Reader reader, Writter writter) {
@@ -23,8 +22,6 @@ public class IOManager {
     }
 
     public IOManager() {
-        reader = () -> new Scanner(System.in).nextLine();
-        writter = (String s) -> System.out.println(s);
     }
 
     public Reader getReader() {
@@ -46,11 +43,11 @@ public class IOManager {
     public void setIO(Reader newReader, Writter newWritter) {
         this.setReader(newReader);
         this.setWritter(newWritter);
-    };
+    }
 
     public void write(String s) {
         writter.write(s);
-    };
+    }
 
     public String readLine() {
         return reader.readLine();
@@ -92,6 +89,6 @@ public class IOManager {
             return false;
         }
         return true;
-    };
+    }
 
 }

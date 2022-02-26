@@ -3,6 +3,7 @@ package lab.common.data;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ public class PersonCollectionManager {
         initDate = LocalDate.now();
         this.collection = collection;
         idSet.add(0);
-        idSet.addAll(collection.stream().map(person -> person.getID()).collect(Collectors.toSet()));
+        idSet.addAll(collection.stream().map(Person::getID).collect(Collectors.toSet()));
     }
 
     public void add(Person person) {
@@ -45,10 +46,10 @@ public class PersonCollectionManager {
     public void removeIf(Predicate<Person> filter) {
         collection.removeIf(filter);
         idSet.clear();
-        idSet.addAll(collection.stream().map(person -> person.getID()).collect(Collectors.toSet()));
+        idSet.addAll(collection.stream().map(Person::getID).collect(Collectors.toSet()));
     }
 
-    public ArrayList<Person> getCollectionCopy() {
+    public List<Person> getCollectionCopy() {
         return new ArrayList<>(collection);
     }
 

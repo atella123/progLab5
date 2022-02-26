@@ -38,15 +38,15 @@ public class Person implements Comparable<Person> {
         return id;
     }
 
-    public void setID(Integer newId) {
-        this.id = newId;
+    public void setID(Integer newID) {
+        this.id = newID;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         if (!Validator.isValidName(name)) {
             throw new IllegalFieldValueException();
         }
@@ -57,7 +57,7 @@ public class Person implements Comparable<Person> {
         return coordinates;
     }
 
-    public void setCoordinates(Coordinates coordinates) {
+    private void setCoordinates(Coordinates coordinates) {
         if (!Validator.isValidCoordinates(coordinates)) {
             throw new IllegalFieldValueException();
         }
@@ -68,19 +68,19 @@ public class Person implements Comparable<Person> {
         return creationDate;
     }
 
-    public void setCreationDate() {
+    private void setCreationDate() {
         creationDate = LocalDate.now();
     }
 
-    public void setCreationDate(LocalDate date) {
-        creationDate = date;
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
 
     public int getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    private void setHeight(int height) {
         if (!Validator.isValidHeight(height)) {
             throw new IllegalFieldValueException();
         }
@@ -91,7 +91,7 @@ public class Person implements Comparable<Person> {
         return passportID;
     }
 
-    public void setPassportID(String passportID) {
+    private void setPassportID(String passportID) {
         if (!Validator.isValidPassportID(passportID)) {
             throw new IllegalFieldValueException();
         }
@@ -102,7 +102,7 @@ public class Person implements Comparable<Person> {
         return eyeColor;
     }
 
-    public void setEyeColor(Color eyeColor) {
+    private void setEyeColor(Color eyeColor) {
         this.eyeColor = eyeColor;
     }
 
@@ -110,7 +110,7 @@ public class Person implements Comparable<Person> {
         return nationality;
     }
 
-    public void setNationality(Country nationality) {
+    private void setNationality(Country nationality) {
         this.nationality = nationality;
     }
 
@@ -118,7 +118,7 @@ public class Person implements Comparable<Person> {
         return location;
     }
 
-    public void setLocation(Location location) {
+    private void setLocation(Location location) {
         if (!Validator.isValidLocation(location)) {
             throw new IllegalFieldValueException();
         }
@@ -177,10 +177,7 @@ public class Person implements Comparable<Person> {
         if (nationality != other.nationality) {
             return false;
         }
-        if (!passportID.equals(other.passportID)) {
-            return false;
-        }
-        return true;
+        return !passportID.equals(other.passportID);
     }
 
     @Override
@@ -195,8 +192,11 @@ public class Person implements Comparable<Person> {
         return this.name.length() - person.name.length();
     }
 
-    public static class Validator {
+    public static final class Validator {
         private static final int MIN_H = 10;
+
+        private Validator() {
+        }
 
         public static boolean isValidName(String name) {
             if (Objects.nonNull(name)) {

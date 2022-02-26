@@ -1,6 +1,8 @@
 package lab.commands;
 
-import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import lab.common.data.Person;
 import lab.common.data.PersonCollectionManager;
@@ -18,16 +20,17 @@ public final class GroupCountingByPassportID extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        HashMap<String, Integer> groups = new HashMap<>();
-        for (Person i : getManager().getCollectionCopy()) {
-            if (!groups.containsKey(i.getPassportID())) {
-                groups.put(i.getPassportID(), 0);
-            }
-            groups.put(i.getPassportID(), groups.get(i.getPassportID()) + 1);
+        StringBuilder result = new StringBuilder();
+        Map<String, Long> groupCounting = getManager().getCollectionCopy().stream()
+                .collect(Collectors.groupingBy(Person::getPassportID, Collectors.counting()));
+        for (Entry<String, Long> entry : groupCounting.entrySet()) {
+            result.append(entry.getKey())
+                    .append(" : ")
+                    .append(entry.getValue())
+                    .append("\n");
         }
-        for (String i : groups.keySet()) {
-            getIO().write(i + " : " + groups.get(i));
-        }
+        result.deleteCharAt(result.length() - 1);
+        getIO().write(result.toString());
         return new CommandResponse(CommandResult.SUCCESS);
     }
 
@@ -38,6 +41,6 @@ public final class GroupCountingByPassportID extends CollectionCommand {
 
     @Override
     public String getMan() {
-        return "group_counting_by_passport_i_d : сгруппировать элементы коллекции по значению поля passportID, вывести количество элементов в каждой группе";
+        return "group_counting_by_passport_id : сгруппировать элементы коллекции по значению поля passportID, вывести количество элементов в каждой группе";
     }
 }

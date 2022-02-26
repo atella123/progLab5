@@ -1,4 +1,4 @@
-package lab.common.util;
+package lab.util;
 
 @FunctionalInterface
 public interface StringConverter<T> {

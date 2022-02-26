@@ -36,5 +36,5 @@ public final class RemoveGreater extends CollectionCommand {
     @Override
     public String getMan() {
         return "remove_greater {element} : удалить из коллекции все элементы, превышающие заданный";
-    };
+    }
 }

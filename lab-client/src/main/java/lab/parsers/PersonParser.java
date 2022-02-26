@@ -6,6 +6,7 @@ import lab.common.data.Country;
 import lab.common.data.Location;
 import lab.common.data.Person;
 import lab.io.IOManager;
+import lab.util.DataReader;
 
 public final class PersonParser {
 
@@ -20,13 +21,12 @@ public final class PersonParser {
         Color eyeColor = parseEyeColor(io);
         Country nationality = parseNationality(io);
         Location location = parseLocation(io);
-        Person p = new Person(name, coordinates, height, passportID, eyeColor, nationality, location);
-        return p;
+        return new Person(name, coordinates, height, passportID, eyeColor, nationality, location);
     }
 
     public static String parseName(IOManager io) {
         io.write("Enter person name");
-        return BasicParser.readValidString(io, Person.Validator::isValidName, "Person name can't be empty");
+        return DataReader.readValidString(io, Person.Validator::isValidName, "Person name can't be empty");
     }
 
     public static Coordinates parseCoordinates(IOManager io) {
@@ -36,24 +36,24 @@ public final class PersonParser {
 
     public static int parseHeight(IOManager io) {
         io.write("Enter person height");
-        return BasicParser.readValidObject(io, Integer::parseInt, Person.Validator::isValidHeight,
+        return DataReader.readStringAsValidObject(io, Integer::parseInt, Person.Validator::isValidHeight,
                 "Enter positive value", "Enter valid Integer");
     }
 
     public static String parsePassportID(IOManager io) {
         io.write("Enter person passportID");
-        return BasicParser.readValidString(io, Person.Validator::isValidPassportID,
+        return DataReader.readValidString(io, Person.Validator::isValidPassportID,
                 "Enter valid passportID");
     }
 
     public static Color parseEyeColor(IOManager io) {
         io.write("Enter person eyeColor");
-        return BasicParser.readEnumValue(io, Color.class);
+        return DataReader.readEnumValue(io, Color.class);
     }
 
     public static Country parseNationality(IOManager io) {
         io.write("Enter person nationality");
-        return BasicParser.readEnumValue(io, Country.class);
+        return DataReader.readEnumValue(io, Country.class);
     }
 
     public static Location parseLocation(IOManager io) {

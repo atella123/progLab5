@@ -18,7 +18,7 @@ public final class RemoveByID extends CollectionCommand {
     public CommandResponse execute(String arg) {
         Integer id;
         try {
-            id = Integer.parseInt(arg.replaceAll(" ", ""));
+            id = Integer.parseInt(arg.replace(" ", ""));
         } catch (Exception e) {
             return new CommandResponse(CommandResult.ERROR, "Illegal argument");
         }
@@ -39,5 +39,5 @@ public final class RemoveByID extends CollectionCommand {
     @Override
     public String getMan() {
         return "remove_by_id id : удалить элемент из коллекции по его id";
-    };
+    }
 }

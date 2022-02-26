@@ -20,17 +20,13 @@ public final class AddIfMax extends CollectionCommand {
     public CommandResponse execute(String arg) {
         Person p;
         try {
-            p = PersonParser.parsePerson(this.getIO());
+            p = PersonParser.parsePerson(getIO());
         } catch (StringIsNullException e) {
             return new CommandResponse(CommandResult.END);
         }
-        boolean isMax = true;
-        for (Person i : this.getManager().getCollectionCopy()) {
-            isMax = p.compareTo(i) > 0;
-        }
-        if (isMax) {
-            this.getManager().add(p);
-            return new CommandResponse(CommandResult.SUCCESS, new Person[] { p }, new Person[0]);
+        if (getManager().getCollectionCopy().stream().allMatch(person -> person.compareTo(p) < 0)) {
+            getManager().add(p);
+            return new CommandResponse(CommandResult.SUCCESS, new Person[] {p}, new Person[0]);
         }
         return new CommandResponse(CommandResult.SUCCESS);
     }
