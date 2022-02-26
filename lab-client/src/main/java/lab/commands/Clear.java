@@ -1,5 +1,6 @@
 package lab.commands;
 
+import lab.common.data.Person;
 import lab.common.data.PersonCollectionManager;
 import lab.io.IOManager;
 
@@ -15,8 +16,9 @@ public final class Clear extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        this.getManager().clear();
-        return CommandResponse.SUCCESS;
+        Person[] res = getManager().getCollectionCopy().stream().toArray(Person[]::new);
+        getManager().clear();
+        return new CommandResponse(CommandResult.SUCCESS, new Person[0], res);
     }
 
     @Override

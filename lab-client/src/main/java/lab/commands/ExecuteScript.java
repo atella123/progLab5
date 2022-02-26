@@ -4,61 +4,57 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayDeque;
 import java.util.Objects;
+import java.util.Stack;
 
 import lab.common.data.PersonCollectionManager;
 import lab.io.IOManager;
 import lab.io.Reader;
-import lab.util.CommandManager;
 import lab.util.CommandRunner;
 
 public final class ExecuteScript extends CollectionCommand {
 
-    private CommandManager commands;
-    private ArrayDeque<File> bannedFiles = new ArrayDeque<>();
-    private ArrayDeque<IOManager> oldIO = new ArrayDeque<>();
+    private CommandRunner runner;
+    private Stack<File> bannedFiles = new Stack<>();
+    private Stack<IOManager> oldIO = new Stack<>();
     private BufferedReader bufferedReader;
 
-    public ExecuteScript(PersonCollectionManager manager, CommandManager commands) {
+    public ExecuteScript(PersonCollectionManager manager, CommandRunner runner) {
         super(manager);
-        this.commands = commands;
+        this.runner = runner;
     }
 
-    public ExecuteScript(IOManager io, PersonCollectionManager manager, CommandManager commands) {
+    public ExecuteScript(IOManager io, PersonCollectionManager manager, CommandRunner runner) {
         super(io, manager);
-        this.commands = commands;
+        this.runner = runner;
     }
 
     @Override
     public CommandResponse execute(String arg) {
         try {
-            FileReader fileReader = new FileReader(new File(arg));
+            File file = new File(arg);
+            FileReader fileReader = new FileReader(file);
             this.setIO(createReader(fileReader), this.getIO().getWritter());
+            bannedFiles.push(file);
         } catch (IOException e) {
-            return CommandResponse.FILE_NOT_FOUND;
+            return new CommandResponse(CommandResult.ERROR, "Unable to read file");
         }
-        oldIO.addFirst(commands.getIO());
-        commands.setIO(this.getIO());
-        CommandRunner runner = new CommandRunner(commands);
+        oldIO.push(runner.getCommandManager().getIO());
+        runner.getCommandManager().setIO(this.getIO());
         String line;
         CommandResponse resp = null;
         String[] parsedLine;
         do {
             line = this.getIO().readLine();
-            parsedLine = runner.parseCommand(line);
-            if (commands.get(parsedLine[0]).getClass().equals(this.getClass())) {
-                File file = new File(parsedLine[1]);
-                if (bannedFiles.contains(file)) {
-                    continue;
-                }
-                bannedFiles.addFirst(file);
+            if (Objects.isNull(line)) {
+                break;
             }
+            parsedLine = runner.parseCommand(line);
             resp = runner.run(parsedLine[0], parsedLine[1]);
-        } while (!Objects.isNull(line) && !resp.equals(CommandResponse.END));
-        commands.setIO(oldIO.pollFirst());
-        bannedFiles.pollFirst();
-        return CommandResponse.SUCCESS;
+        } while (!resp.getResult().equals(CommandResult.END));
+        runner.getCommandManager().setIO(oldIO.pop());
+        bannedFiles.pop();
+        return new CommandResponse(CommandResult.SUCCESS);
     }
 
     private Reader createReader(FileReader fileReader) {

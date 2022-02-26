@@ -108,7 +108,7 @@ public final class Client {
         cmds.put("remove_by_id", new RemoveByID(manager));
         cmds.put("clear", new Clear(manager));
         cmds.put("save", new Save(manager, gson));
-        cmds.put("execute_script", new ExecuteScript(manager, commandManager));
+        cmds.put("execute_script", new ExecuteScript(manager, runner));
         cmds.put("exit", new Exit());
         cmds.put("add_if_max", new AddIfMax(manager));
         cmds.put("remove_greater", new RemoveGreater(manager));

@@ -30,9 +30,9 @@ public final class MinByCoordinates extends CollectionCommand {
                 }
             }
             this.getIO().write(minP.toString());
-            return CommandResponse.SUCCESS;
+            return new CommandResponse(CommandResult.SUCCESS);
         }
-        return CommandResponse.COLLECTION_IS_EMPTY;
+        return new CommandResponse(CommandResult.ERROR, "Collection is empty");
     }
 
     @Override

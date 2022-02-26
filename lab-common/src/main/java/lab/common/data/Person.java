@@ -23,7 +23,7 @@ public class Person implements Comparable<Person> {
 
     public Person(String name, Coordinates coordinates, int height, String passportID, Color eyeColor,
             Country nationality, Location location) {
-        setID(id);
+        setID(0);
         setName(name);
         setCoordinates(coordinates);
         setCreationDate();

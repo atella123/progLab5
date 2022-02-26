@@ -1,23 +1,72 @@
 package lab.commands;
 
-public enum CommandResponse {
-    // TODO: Make it class, not enum
-    SUCCESS("Successfully executed command"),
-    ILLEGAL_ARGUMENT("Illegal argument"),
-    FILE_NOT_FOUND("File not found"),
-    CANT_USE_FILE("Can't read/write from/to file"),
-    COLLECTION_IS_EMPTY("Collection is empty"),
-    NO_SUCH_ELEMENT("No such element in collection"),
-    END("Successfully finished running");
+import lab.common.data.Person;
 
+public class CommandResponse {
+    private final boolean printableResult;
     private final String message;
+    private final CommandResult result;
+    private final boolean changedCollecton;
+    private final Person[] added;
+    private final Person[] removed;
 
-    CommandResponse(String message) {
-        this.message = message;
+    public CommandResponse(CommandResult result) {
+        this.printableResult = false;
+        this.message = null;
+        this.result = result;
+        this.changedCollecton = false;
+        this.added = null;
+        this.removed = null;
     }
 
-    @Override
-    public String toString() {
+    public CommandResponse(CommandResult result, Person[] added, Person[] removed) {
+        this.printableResult = false;
+        this.message = null;
+        this.result = result;
+        this.changedCollecton = true;
+        this.added = added;
+        this.removed = removed;
+    }
+
+    public CommandResponse(CommandResult result, String message) {
+        this.printableResult = true;
+        this.message = message;
+        this.result = result;
+        this.changedCollecton = false;
+        this.added = null;
+        this.removed = null;
+    }
+
+    public CommandResponse(CommandResult result, String message, Person[] added, Person[] removed) {
+        this.printableResult = true;
+        this.message = message;
+        this.result = result;
+        this.changedCollecton = true;
+        this.added = added;
+        this.removed = removed;
+    }
+
+    public boolean hasPrintableResult() {
+        return printableResult;
+    }
+
+    public String getMessage() {
         return message;
+    }
+
+    public CommandResult getResult() {
+        return result;
+    }
+
+    public boolean hasChangedCollecton() {
+        return changedCollecton;
+    }
+
+    public Person[] getAdded() {
+        return added;
+    }
+
+    public Person[] getRemoved() {
+        return removed;
     }
 }

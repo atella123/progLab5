@@ -2,6 +2,7 @@ package lab.commands;
 
 import lab.common.data.Person;
 import lab.common.data.PersonCollectionManager;
+import lab.common.exceptions.StringIsNullException;
 import lab.io.IOManager;
 import lab.parsers.PersonParser;
 
@@ -17,15 +18,21 @@ public final class AddIfMax extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        Person p = PersonParser.parsePerson(this.getIO());
+        Person p;
+        try {
+            p = PersonParser.parsePerson(this.getIO());
+        } catch (StringIsNullException e) {
+            return new CommandResponse(CommandResult.END);
+        }
         boolean isMax = true;
         for (Person i : this.getManager().getCollectionCopy()) {
             isMax = p.compareTo(i) > 0;
         }
         if (isMax) {
             this.getManager().add(p);
+            return new CommandResponse(CommandResult.SUCCESS, new Person[] { p }, new Person[0]);
         }
-        return CommandResponse.SUCCESS;
+        return new CommandResponse(CommandResult.SUCCESS);
     }
 
     @Override

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.TreeSet;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class PersonCollectionManager {
 
@@ -13,12 +14,15 @@ public class PersonCollectionManager {
     private final TreeSet<Integer> idSet = new TreeSet<>();
 
     public PersonCollectionManager() {
+        idSet.add(0);
         initDate = LocalDate.now();
     }
 
     public PersonCollectionManager(Collection<Person> collection) {
         initDate = LocalDate.now();
         this.collection = collection;
+        idSet.add(0);
+        idSet.addAll(collection.stream().map(person -> person.getID()).collect(Collectors.toSet()));
     }
 
     public void add(Person person) {
@@ -34,11 +38,14 @@ public class PersonCollectionManager {
     }
 
     public void remove(Person person) {
-        this.collection.remove(person);
+        idSet.remove(person.getID());
+        collection.remove(person);
     }
 
     public void removeIf(Predicate<Person> filter) {
-        this.collection.removeIf(filter);
+        collection.removeIf(filter);
+        idSet.clear();
+        idSet.addAll(collection.stream().map(person -> person.getID()).collect(Collectors.toSet()));
     }
 
     public ArrayList<Person> getCollectionCopy() {
@@ -53,12 +60,11 @@ public class PersonCollectionManager {
     }
 
     public Person getPersonByID(Integer id) {
-        for (Person i : collection) {
-            if (i.getID().equals(id)) {
-                return i;
-            }
-        }
-        throw new NullPointerException();
+        return collection.stream().filter(p -> p.getID().equals(id)).findFirst().get();
+    }
+
+    public Collection<Person> getIf(Predicate<Person> predicate) {
+        return collection.stream().filter(predicate).collect(Collectors.toList());
     }
 
     @SuppressWarnings("rawtypes")
@@ -68,6 +74,8 @@ public class PersonCollectionManager {
 
     public void clear() {
         collection.clear();
+        idSet.clear();
+        idSet.add(0);
     }
 
     public void setCollection(Collection<Person> collection) {

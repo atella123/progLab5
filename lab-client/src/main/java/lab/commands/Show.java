@@ -20,7 +20,7 @@ public final class Show extends CollectionCommand {
         for (Person i : this.getManager().getCollectionCopy()) {
             this.getIO().write(i.toString());
         }
-        return CommandResponse.SUCCESS;
+        return new CommandResponse(CommandResult.SUCCESS);
     }
 
     @Override

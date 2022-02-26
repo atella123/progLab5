@@ -23,7 +23,7 @@ public final class Info extends CollectionCommand {
         builder.append("\nElement count: ");
         builder.append(this.getManager().getCollectionCopy().size());
         this.getIO().write(builder.toString());
-        return CommandResponse.SUCCESS;
+        return new CommandResponse(CommandResult.SUCCESS);
     }
 
     @Override

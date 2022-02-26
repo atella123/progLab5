@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import lab.common.data.Person;
 import lab.common.data.PersonCollectionManager;
+import lab.common.exceptions.StringIsNullException;
 import lab.io.IOManager;
 import lab.parsers.PersonParser;
 
@@ -24,15 +25,19 @@ public final class Update extends CollectionCommand {
         try {
             id = Integer.parseInt(arg.replaceAll(" ", ""));
         } catch (Exception e) {
-            return CommandResponse.ILLEGAL_ARGUMENT;
+            return new CommandResponse(CommandResult.ERROR, "Illegal argument:\t" + arg);
         }
         Set<Person> personToUpdate = getManager().getCollectionCopy().stream().filter(p -> p.getID().equals(id))
                 .collect(Collectors.toSet());
         if (!personToUpdate.isEmpty()) {
-            personToUpdate.forEach(p -> getManager().updatePerson(p, PersonParser.parsePerson(getIO())));
-            return CommandResponse.SUCCESS;
+            try {
+                personToUpdate.forEach(p -> getManager().updatePerson(p, PersonParser.parsePerson(getIO())));
+                return new CommandResponse(CommandResult.SUCCESS);
+            } catch (StringIsNullException e) {
+                return new CommandResponse(CommandResult.END, "Person not parsed");
+            }
         }
-        return CommandResponse.NO_SUCH_ELEMENT;
+        return new CommandResponse(CommandResult.ERROR, "No element with id (" + id + ") is present");
     }
 
     @Override

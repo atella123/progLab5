@@ -21,14 +21,14 @@ public final class FilterLessThanNationality extends CollectionCommand {
         try {
             country = Country.valueOf(arg.toUpperCase());
         } catch (Exception e) {
-            return CommandResponse.ILLEGAL_ARGUMENT;
+            return new CommandResponse(CommandResult.ERROR, "Illegal argument");
         }
-        for (Person i : this.getManager().getCollectionCopy()) {
+        for (Person i : getManager().getCollectionCopy()) {
             if (i.getNationality().compareTo(country) < 0) {
-                this.getIO().write(i.toString());
+                getIO().write(i.toString());
             }
         }
-        return CommandResponse.SUCCESS;
+        return new CommandResponse(CommandResult.SUCCESS);
     }
 
     @Override

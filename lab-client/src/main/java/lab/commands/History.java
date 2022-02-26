@@ -16,7 +16,7 @@ public final class History extends Command {
         for (Command i : commands.getHistory()) {
             this.getIO().write(i.toString());
         }
-        return CommandResponse.SUCCESS;
+        return new CommandResponse(CommandResult.SUCCESS);
     }
 
     @Override

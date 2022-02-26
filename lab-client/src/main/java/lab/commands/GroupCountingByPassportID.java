@@ -19,16 +19,16 @@ public final class GroupCountingByPassportID extends CollectionCommand {
     @Override
     public CommandResponse execute(String arg) {
         HashMap<String, Integer> groups = new HashMap<>();
-        for (Person i : this.getManager().getCollectionCopy()) {
+        for (Person i : getManager().getCollectionCopy()) {
             if (!groups.containsKey(i.getPassportID())) {
                 groups.put(i.getPassportID(), 0);
             }
             groups.put(i.getPassportID(), groups.get(i.getPassportID()) + 1);
         }
         for (String i : groups.keySet()) {
-            this.getIO().write(i + " : " + groups.get(i));
+            getIO().write(i + " : " + groups.get(i));
         }
-        return CommandResponse.SUCCESS;
+        return new CommandResponse(CommandResult.SUCCESS);
     }
 
     @Override

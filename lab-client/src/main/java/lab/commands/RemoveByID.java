@@ -1,5 +1,6 @@
 package lab.commands;
 
+import lab.common.data.Person;
 import lab.common.data.PersonCollectionManager;
 import lab.io.IOManager;
 
@@ -19,13 +20,15 @@ public final class RemoveByID extends CollectionCommand {
         try {
             id = Integer.parseInt(arg.replaceAll(" ", ""));
         } catch (Exception e) {
-            return CommandResponse.ILLEGAL_ARGUMENT;
+            return new CommandResponse(CommandResult.ERROR, "Illegal argument");
         }
         if (this.getManager().getCollectionCopy().stream().anyMatch(person -> person.getID().equals(id))) {
-            this.getManager().removeIf(person -> person.getID().equals(id));
-            return CommandResponse.SUCCESS;
+            Person person = getManager().getPersonByID(id);
+            getManager().remove(person);
+            return new CommandResponse(CommandResult.SUCCESS, new Person[0], new Person[] {person});
         }
-        return CommandResponse.NO_SUCH_ELEMENT;
+        return new CommandResponse(CommandResult.ERROR, "No such element");
+
     }
 
     @Override

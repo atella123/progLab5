@@ -1,6 +1,8 @@
 package lab.commands;
 
+import lab.common.data.Person;
 import lab.common.data.PersonCollectionManager;
+import lab.common.exceptions.StringIsNullException;
 import lab.io.IOManager;
 import lab.parsers.PersonParser;
 
@@ -16,8 +18,13 @@ public final class Add extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        this.getManager().add(PersonParser.parsePerson(this.getIO()));
-        return CommandResponse.SUCCESS;
+        try {
+            Person p = PersonParser.parsePerson(this.getIO());
+            this.getManager().add(p);
+            return new CommandResponse(CommandResult.SUCCESS, new Person[] {p}, new Person[0]);
+        } catch (StringIsNullException e) {
+            return new CommandResponse(CommandResult.END, "Person not parsed");
+        }
     }
 
     @Override

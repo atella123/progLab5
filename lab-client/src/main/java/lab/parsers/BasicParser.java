@@ -1,7 +1,9 @@
 package lab.parsers;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 
+import lab.common.exceptions.StringIsNullException;
 import lab.common.util.StringConverter;
 import lab.io.IOManager;
 import lab.util.EnumUtil;
@@ -18,6 +20,9 @@ public final class BasicParser {
         while (!predicate.test(s)) {
             io.write(illegalValueMessage);
             s = io.readLine();
+            if (Objects.isNull(s)) {
+                throw new StringIsNullException();
+            }
         }
         return s;
     }
@@ -37,6 +42,9 @@ public final class BasicParser {
         String s;
         while (true) {
             s = io.readLine();
+            if (Objects.isNull(s)) {
+                throw new StringIsNullException();
+            }
             try {
                 t = converter.convert(s);
                 return t;

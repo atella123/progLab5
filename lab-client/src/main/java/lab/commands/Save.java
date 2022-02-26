@@ -28,11 +28,11 @@ public final class Save extends CollectionCommand {
         try (FileWriter fileWriter = new FileWriter(arg)) {
             fileWriter.write(json);
         } catch (IOException e) {
-            return CommandResponse.CANT_USE_FILE;
+            return new CommandResponse(CommandResult.ERROR, "Can't write to file");
         } catch (NullPointerException e) {
-            return CommandResponse.FILE_NOT_FOUND;
+            return new CommandResponse(CommandResult.ERROR, "File not found");
         }
-        return CommandResponse.SUCCESS;
+        return new CommandResponse(CommandResult.SUCCESS);
     }
 
     @Override

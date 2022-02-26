@@ -4,7 +4,7 @@ public final class Exit extends Command {
 
     @Override
     public CommandResponse execute(String arg) {
-        return CommandResponse.END;
+        return new CommandResponse(CommandResult.END);
     }
 
     @Override

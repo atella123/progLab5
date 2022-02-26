@@ -6,6 +6,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import lab.commands.Command;
 import lab.commands.CommandResponse;
+import lab.commands.CommandResult;
 import lab.io.IOManager;
 
 public class CommandRunner {
@@ -31,13 +32,13 @@ public class CommandRunner {
             try {
                 String[] cmd = parseCommand(io.readLine());
                 resp = run(cmd[0], cmd[1]);
-                if (resp != CommandResponse.SUCCESS) {
-                    io.write(resp.toString());
+                if (resp.hasPrintableResult()) {
+                    io.write(resp.getMessage());
                 }
             } catch (NullPointerException e) {
                 io.write("Unknown command");
             }
-        } while (resp != CommandResponse.END);
+        } while (!resp.getResult().equals(CommandResult.END));
     };
 
     public CommandResponse run(String cmd, String arg) {
@@ -59,6 +60,10 @@ public class CommandRunner {
 
     public IOManager getIo() {
         return io;
+    }
+
+    public CommandManager getCommandManager() {
+        return cmds;
     }
 
     public void setIo(IOManager io) {

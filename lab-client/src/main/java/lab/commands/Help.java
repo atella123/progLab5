@@ -22,7 +22,7 @@ public final class Help extends Command {
         for (Command i : commands) {
             this.getIO().write(i.getMan());
         }
-        return CommandResponse.SUCCESS;
+        return new CommandResponse(CommandResult.SUCCESS);
     }
 
     @Override
