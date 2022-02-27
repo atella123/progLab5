@@ -21,7 +21,7 @@ public final class Update extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        Integer id;
+        int id;
         try {
             id = Integer.parseInt(arg.replace(" ", ""));
         } catch (Exception e) {

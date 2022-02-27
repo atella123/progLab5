@@ -31,11 +31,11 @@ import lab.commands.Show;
 import lab.commands.Update;
 import lab.common.data.Person;
 import lab.common.data.PersonCollectionManager;
-import lab.common.json.LocalDateDesetializer;
+import lab.common.json.LocalDateDeserializer;
 import lab.common.json.PersonCollectionDeserializer;
-import lab.common.json.PersonCollectionSereailzer;
+import lab.common.json.PersonCollectionSerealizer;
 import lab.common.json.PersonDeserializer;
-import lab.common.json.PersonSerealizer;
+import lab.common.json.PersonSerializer;
 import lab.io.IOManager;
 import lab.util.CommandManager;
 import lab.util.CommandRunner;
@@ -47,7 +47,6 @@ public final class Client {
 
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
-        String json;
         StringBuilder jsonBuilder = new StringBuilder();
         Collection<Person> collection = new HashSet<>();
         Gson gson = createGson(collection);
@@ -55,11 +54,11 @@ public final class Client {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(args[0]))) {
             String line = bufferedReader.readLine();
             while (line != null) {
-                jsonBuilder.append(line + "\n");
+                jsonBuilder.append(line);
+                jsonBuilder.append("\n");
                 line = bufferedReader.readLine();
             }
-            json = jsonBuilder.toString();
-            collection = gson.fromJson(json, collection.getClass());
+            collection = gson.fromJson(jsonBuilder.toString(), collection.getClass());
         } catch (Exception e) {
             System.out.println("Error when reading file");
             return;
@@ -85,33 +84,33 @@ public final class Client {
     public static Gson createGson(Collection<Person> collection) {
         return new GsonBuilder().setPrettyPrinting()
                 .registerTypeAdapter(collection.getClass(),
-                        new PersonCollectionSereailzer())
+                        new PersonCollectionSerealizer())
                 .registerTypeAdapter(collection.getClass(),
                         new PersonCollectionDeserializer())
-                .registerTypeAdapter(Person.class, new PersonSerealizer())
-                .registerTypeAdapter(LocalDate.class, new LocalDateDesetializer())
+                .registerTypeAdapter(Person.class, new PersonSerializer())
+                .registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
                 .registerTypeAdapter(Person.class, new PersonDeserializer()).create();
     }
 
     public static Map<String, Command> createCommandsMap(PersonCollectionManager manager, Gson gson,
             CommandRunner runner) {
-        HashMap<String, Command> cmds = new HashMap<>();
-        cmds.put("help", new Help(cmds.values()));
-        cmds.put("info", new Info(manager));
-        cmds.put("show", new Show(manager));
-        cmds.put("add", new Add(manager));
-        cmds.put("update", new Update(manager));
-        cmds.put("remove_by_id", new RemoveByID(manager));
-        cmds.put("clear", new Clear(manager));
-        cmds.put("save", new Save(manager, gson));
-        cmds.put("execute_script", new ExecuteScript(manager, runner));
-        cmds.put("exit", new Exit());
-        cmds.put("add_if_max", new AddIfMax(manager));
-        cmds.put("remove_greater", new RemoveGreater(manager));
-        cmds.put("history", new History(runner));
-        cmds.put("min_by_coordinates", new MinByCoordinates(manager));
-        cmds.put("group_counting_by_passport_id", new GroupCountingByPassportID(manager));
-        cmds.put("filter_less_than_nationality", new FilterLessThanNationality(manager));
-        return cmds;
+        HashMap<String, Command> commands = new HashMap<>();
+        commands.put("help", new Help(commands.values()));
+        commands.put("info", new Info(manager));
+        commands.put("show", new Show(manager));
+        commands.put("add", new Add(manager));
+        commands.put("update", new Update(manager));
+        commands.put("remove_by_id", new RemoveByID(manager));
+        commands.put("clear", new Clear(manager));
+        commands.put("save", new Save(manager, gson));
+        commands.put("execute_script", new ExecuteScript(manager, runner));
+        commands.put("exit", new Exit());
+        commands.put("add_if_max", new AddIfMax(manager));
+        commands.put("remove_greater", new RemoveGreater(manager));
+        commands.put("history", new History(runner));
+        commands.put("min_by_coordinates", new MinByCoordinates(manager));
+        commands.put("group_counting_by_passport_id", new GroupCountingByPassportID(manager));
+        commands.put("filter_less_than_nationality", new FilterLessThanNationality(manager));
+        return commands;
     }
 }

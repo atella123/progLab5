@@ -14,20 +14,13 @@ import lab.common.data.Person;
 
 public final class PersonCollectionDeserializer implements JsonDeserializer<Collection<Person>> {
 
-    /**
-     * @param json
-     * @param typeOfT
-     * @param context
-     * @return Collection<Person>
-     * @throws JsonParseException
-     */
     @Override
-    public Collection<Person> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+    public HashSet<Person> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
         JsonArray jsonArray = json.getAsJsonArray();
-        Collection<Person> result = new HashSet<>();
+        HashSet<Person> result = new HashSet<>();
 
-        for (Integer i = 0; i < jsonArray.size(); i++) {
+        for (int i = 0; i < jsonArray.size(); i++) {
             result.add(context.deserialize(jsonArray.get(i), Person.class));
         }
 

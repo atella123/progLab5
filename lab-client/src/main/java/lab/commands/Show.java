@@ -17,7 +17,7 @@ public final class Show extends CollectionCommand {
     @Override
     public CommandResponse execute(String arg) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Person manager elements:");
+        stringBuilder.append("Person manager elements:\n");
         for (Person i : this.getManager().getCollectionCopy()) {
             stringBuilder.append(i.toString())
                     .append("\n");

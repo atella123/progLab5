@@ -13,21 +13,21 @@ public class CommandRunner {
 
     private static final Integer HISTORY_SIZE = 11;
     private IOManager io;
-    private CommandManager cmds;
+    private CommandManager commands;
     private ArrayBlockingQueue<Command> history = new ArrayBlockingQueue<>(HISTORY_SIZE);
 
-    public CommandRunner(CommandManager cmds) {
+    public CommandRunner(CommandManager commands) {
         this.io = new IOManager();
-        this.cmds = cmds;
+        this.commands = commands;
     }
 
-    public CommandRunner(IOManager io, CommandManager cmds) {
+    public CommandRunner(IOManager io, CommandManager commands) {
         this.io = io;
-        this.cmds = cmds;
+        this.commands = commands;
     }
 
     public void run() {
-        CommandResponse resp = null;
+        CommandResponse resp;
         do {
             try {
                 String nextLine = io.readLine();
@@ -35,7 +35,7 @@ public class CommandRunner {
                     return;
                 }
                 String[] cmd = parseCommand(nextLine);
-                resp = runCommand(cmds.get(cmd[0]), cmd[1]);
+                resp = runCommand(commands.get(cmd[0]), cmd[1]);
             } catch (NullPointerException e) {
                 resp = new CommandResponse(CommandResult.ERROR, "Unknown command");
             }
@@ -70,7 +70,7 @@ public class CommandRunner {
     }
 
     public CommandManager getCommandManager() {
-        return cmds;
+        return commands;
     }
 
     public void setIO(IOManager newIO) {

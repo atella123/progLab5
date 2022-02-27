@@ -6,7 +6,7 @@ public class CommandResponse {
     private final boolean printableResult;
     private final String message;
     private final CommandResult result;
-    private final boolean changedCollecton;
+    private final boolean changedCollection;
     private final Person[] added;
     private final Person[] removed;
 
@@ -14,7 +14,7 @@ public class CommandResponse {
         this.printableResult = false;
         this.message = null;
         this.result = result;
-        this.changedCollecton = false;
+        this.changedCollection = false;
         this.added = null;
         this.removed = null;
     }
@@ -23,7 +23,7 @@ public class CommandResponse {
         this.printableResult = false;
         this.message = null;
         this.result = result;
-        this.changedCollecton = true;
+        this.changedCollection = true;
         this.added = added;
         this.removed = removed;
     }
@@ -32,7 +32,7 @@ public class CommandResponse {
         this.printableResult = true;
         this.message = message;
         this.result = result;
-        this.changedCollecton = false;
+        this.changedCollection = false;
         this.added = null;
         this.removed = null;
     }
@@ -41,7 +41,7 @@ public class CommandResponse {
         this.printableResult = true;
         this.message = message;
         this.result = result;
-        this.changedCollecton = true;
+        this.changedCollection = true;
         this.added = added;
         this.removed = removed;
     }
@@ -58,8 +58,8 @@ public class CommandResponse {
         return result;
     }
 
-    public boolean hasChangedCollecton() {
-        return changedCollecton;
+    public boolean hasChangedCollection() {
+        return changedCollection;
     }
 
     public Person[] getAdded() {

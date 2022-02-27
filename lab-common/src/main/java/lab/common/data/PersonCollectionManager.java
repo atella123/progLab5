@@ -86,8 +86,4 @@ public class PersonCollectionManager {
     public LocalDate getInitDate() {
         return initDate;
     }
-
-    public Integer getNextID() {
-        return null;
-    }
 }

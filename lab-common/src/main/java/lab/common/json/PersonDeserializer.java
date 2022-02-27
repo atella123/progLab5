@@ -17,13 +17,6 @@ import lab.common.data.Person;
 
 public final class PersonDeserializer implements JsonDeserializer<Person> {
 
-    /**
-     * @param json
-     * @param typeOfT
-     * @param context
-     * @return Person
-     * @throws JsonParseException
-     */
     @Override
     public Person deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {

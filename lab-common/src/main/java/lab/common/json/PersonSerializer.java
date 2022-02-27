@@ -9,7 +9,7 @@ import com.google.gson.JsonSerializer;
 
 import lab.common.data.Person;
 
-public final class PersonSerealizer implements JsonSerializer<Person> {
+public final class PersonSerializer implements JsonSerializer<Person> {
 
     @Override
     public JsonElement serialize(Person src, Type typeOfSrc, JsonSerializationContext context) {
