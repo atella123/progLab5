@@ -11,12 +11,6 @@ import lab.common.data.Person;
 
 public final class PersonSerealizer implements JsonSerializer<Person> {
 
-    /**
-     * @param src
-     * @param typeOfSrc
-     * @param context
-     * @return JsonElement
-     */
     @Override
     public JsonElement serialize(Person src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();

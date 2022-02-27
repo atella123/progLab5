@@ -12,12 +12,6 @@ import lab.common.data.Person;
 
 public final class PersonCollectionSereailzer implements JsonSerializer<Collection<Person>> {
 
-    /**
-     * @param src
-     * @param typeOfSrc
-     * @param context
-     * @return JsonElement
-     */
     @Override
     public JsonElement serialize(Collection<Person> src, Type typeOfSrc, JsonSerializationContext context) {
         JsonArray result = new JsonArray();

@@ -14,8 +14,8 @@ public class LocalDateDesetializer implements JsonDeserializer<LocalDate> {
     public LocalDate deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
         String[] jsonString = json.getAsString().split("-");
-        return LocalDate.of(Integer.valueOf(jsonString[0]), Integer.valueOf(jsonString[1]),
-                Integer.valueOf(jsonString[2]));
+        return LocalDate.of(Integer.parseInt(jsonString[0]), Integer.parseInt(jsonString[1]),
+                Integer.parseInt(jsonString[2]));
     }
 
 }
