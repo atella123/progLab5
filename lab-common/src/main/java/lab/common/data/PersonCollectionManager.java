@@ -1,12 +1,15 @@
 package lab.common.data;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.Optional;
 import java.util.TreeSet;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PersonCollectionManager {
 
@@ -34,6 +37,14 @@ public class PersonCollectionManager {
         this.collection.add(person);
     }
 
+    public boolean addIfAllMatch(Person person, Predicate<Person> predicate) {
+        if (collection.stream().allMatch(predicate::test)) {
+            add(person);
+            return true;
+        }
+        return false;
+    }
+
     public Integer nextID() {
         return idSet.last() + 1;
     }
@@ -43,14 +54,40 @@ public class PersonCollectionManager {
         collection.remove(person);
     }
 
-    public void removeIf(Predicate<Person> filter) {
-        collection.removeIf(filter);
+    public Collection<Person> removeIf(Predicate<Person> filter) {
+        Collection<Person> toRemove = collection.stream().filter(filter).collect(Collectors.toSet());
+        collection.removeAll(toRemove);
         idSet.clear();
         idSet.addAll(collection.stream().map(Person::getID).collect(Collectors.toSet()));
+        return toRemove;
     }
 
-    public List<Person> getCollectionCopy() {
-        return new ArrayList<>(collection);
+    public Optional<Person> removePersonByID(Integer id) {
+        Optional<Person> person = getPersonByID(id);
+        if (person.isPresent()) {
+            remove(person.get());
+        }
+        return person;
+    }
+
+    public Stream<Person> filter(Predicate<Person> predicate) {
+        return collection.stream().filter(predicate);
+    }
+
+    public Collection<Person> filterCollection(Predicate<Person> predicate) {
+        return filter(predicate).collect(Collectors.toSet());
+    }
+
+    public Optional<Person> getPersonByID(Integer id) {
+        return collection.stream().filter(person -> person.getID().equals(id)).findAny();
+    }
+
+    public Collection<Person> getCollection() {
+        return collection;
+    }
+
+    public <T> Map<T, Long> groupCounting(Function<Person, T> function) {
+        return collection.stream().collect(Collectors.groupingBy(function, Collectors.counting()));
     }
 
     public void updatePerson(Person oldPerson, Person newPerson) {
@@ -60,12 +97,8 @@ public class PersonCollectionManager {
         collection.add(newPerson);
     }
 
-    public Person getPersonByID(Integer id) {
-        return collection.stream().filter(p -> p.getID().equals(id)).findFirst().get();
-    }
-
-    public Collection<Person> getIf(Predicate<Person> predicate) {
-        return collection.stream().filter(predicate).collect(Collectors.toList());
+    public Optional<Person> getMinPerson(Comparator<Person> comparator) {
+        return collection.stream().min(comparator);
     }
 
     @SuppressWarnings("rawtypes")

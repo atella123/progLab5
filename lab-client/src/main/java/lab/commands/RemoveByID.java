@@ -1,5 +1,8 @@
 package lab.commands;
 
+import java.util.Objects;
+import java.util.Optional;
+
 import lab.common.data.Person;
 import lab.common.data.PersonCollectionManager;
 import lab.io.IOManager;
@@ -17,15 +20,18 @@ public final class RemoveByID extends CollectionCommand {
     @Override
     public CommandResponse execute(String arg) {
         Integer id;
-        try {
-            id = Integer.parseInt(arg.replace(" ", ""));
-        } catch (Exception e) {
+        if (Objects.nonNull(arg)) {
+            try {
+                id = Integer.parseInt(arg.replace(" ", ""));
+            } catch (NumberFormatException e) {
+                return new CommandResponse(CommandResult.ERROR, "Illegal argument");
+            }
+        } else {
             return new CommandResponse(CommandResult.ERROR, "Illegal argument");
         }
-        if (this.getManager().getCollectionCopy().stream().anyMatch(person -> person.getID().equals(id))) {
-            Person person = getManager().getPersonByID(id);
-            getManager().remove(person);
-            return new CommandResponse(CommandResult.SUCCESS, new Person[0], new Person[] {person});
+        Optional<Person> person = getManager().removePersonByID(id);
+        if (person.isPresent()) {
+            return new CommandResponse(CommandResult.SUCCESS, new Person[0], new Person[] {person.get()});
         }
         return new CommandResponse(CommandResult.ERROR, "No such element");
 

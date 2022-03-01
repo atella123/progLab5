@@ -37,7 +37,7 @@ public final class PersonParser {
     public static int parseHeight(IOManager io) {
         io.write("Enter person height");
         return DataReader.readStringAsValidObject(io, Integer::parseInt, Person.Validator::isValidHeight,
-                "Enter positive value", "Enter valid Integer");
+                "Enter positive value", "Enter valid Integer", false);
     }
 
     public static String parsePassportID(IOManager io) {

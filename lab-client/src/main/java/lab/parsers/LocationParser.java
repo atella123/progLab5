@@ -18,13 +18,12 @@ public final class LocationParser {
 
     public static Float parseX(IOManager io) {
         io.write("Enter x coordinate for location");
-        return DataReader.readStringAsValidObject(io, Float::parseFloat, Location.Validator::isValidX,
-                "Enter valid Float", "x can't be null");
+        return DataReader.readStringAsObject(io, Float::parseFloat, "Enter valid Float", false);
     }
 
     public static long parseY(IOManager io) {
         io.write("Enter y coordinate for location");
-        return DataReader.readStringAsObject(io, Long::valueOf, "Enter valid Long");
+        return DataReader.readStringAsObject(io, Long::valueOf, "Enter valid Long", false);
     }
 
     public static String parseName(IOManager io) {

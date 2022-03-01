@@ -27,19 +27,21 @@ public class CommandRunner {
     }
 
     public void run() {
+        String[] cmd;
+        String nextLine;
         CommandResponse resp;
         do {
-            try {
-                String nextLine = io.readLine();
-                if (Objects.isNull(nextLine)) {
-                    return;
-                }
-                String[] cmd = parseCommand(nextLine);
+            nextLine = io.readLine();
+            if (Objects.isNull(nextLine)) {
+                return;
+            }
+            cmd = parseCommand(nextLine);
+            if (commands.containsKey(cmd[0])) {
                 resp = runCommand(commands.get(cmd[0]), cmd[1]);
-            } catch (NullPointerException e) {
+            } else {
                 resp = new CommandResponse(CommandResult.ERROR, "Unknown command");
             }
-            if (resp.hasPrintableResult() && !resp.getResult().equals(CommandResult.SUCCESS)) {
+            if (resp.hasPrintableResult()) {
                 io.write(resp.getMessage());
             }
         } while (!resp.getResult().equals(CommandResult.END));

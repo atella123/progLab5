@@ -16,7 +16,7 @@ public final class Clear extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        Person[] res = getManager().getCollectionCopy().stream().toArray(Person[]::new);
+        Person[] res = getManager().getCollection().stream().toArray(Person[]::new);
         getManager().clear();
         return new CommandResponse(CommandResult.SUCCESS, new Person[0], res);
     }

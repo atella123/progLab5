@@ -2,7 +2,7 @@ package lab.commands;
 
 import lab.common.data.Person;
 import lab.common.data.PersonCollectionManager;
-import lab.common.exceptions.StringIsNullException;
+import lab.exceptions.StringIsNullException;
 import lab.io.IOManager;
 import lab.parsers.PersonParser;
 
@@ -24,8 +24,7 @@ public final class AddIfMax extends CollectionCommand {
         } catch (StringIsNullException e) {
             return new CommandResponse(CommandResult.END);
         }
-        if (getManager().getCollectionCopy().stream().allMatch(person -> person.compareTo(p) < 0)) {
-            getManager().add(p);
+        if (getManager().addIfAllMatch(p, person -> person.compareTo(p) < 0)) {
             return new CommandResponse(CommandResult.SUCCESS, new Person[] {p}, new Person[0]);
         }
         return new CommandResponse(CommandResult.SUCCESS);

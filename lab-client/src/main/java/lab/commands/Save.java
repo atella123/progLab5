@@ -1,5 +1,6 @@
 package lab.commands;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -24,15 +25,17 @@ public final class Save extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        String json = gson.toJson(this.getManager().getCollectionCopy());
-        try (FileWriter fileWriter = new FileWriter(arg)) {
-            fileWriter.write(json);
-        } catch (IOException e) {
-            return new CommandResponse(CommandResult.ERROR, "Can't write to file");
-        } catch (NullPointerException e) {
-            return new CommandResponse(CommandResult.ERROR, "File not found");
+        File file = new File(arg);
+        if (file.exists() && file.isFile()) {
+            String json = gson.toJson(getManager().getCollection());
+            try (FileWriter fileWriter = new FileWriter(file)) {
+                fileWriter.write(json);
+            } catch (IOException e) {
+                return new CommandResponse(CommandResult.ERROR, "Can't write to file");
+            }
+            return new CommandResponse(CommandResult.SUCCESS);
         }
-        return new CommandResponse(CommandResult.SUCCESS);
+        return new CommandResponse(CommandResult.ERROR, "File not found");
     }
 
     @Override

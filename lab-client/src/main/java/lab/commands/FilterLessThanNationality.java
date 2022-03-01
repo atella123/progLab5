@@ -3,7 +3,6 @@ package lab.commands;
 import java.util.stream.Collectors;
 
 import lab.common.data.Country;
-import lab.common.data.Person;
 import lab.common.data.PersonCollectionManager;
 import lab.io.IOManager;
 
@@ -22,13 +21,12 @@ public final class FilterLessThanNationality extends CollectionCommand {
         Country country;
         try {
             country = Country.valueOf(arg.toUpperCase());
-        } catch (Exception e) {
+        } catch (IllegalArgumentException | NullPointerException e) {
             return new CommandResponse(CommandResult.ERROR, "Illegal argument");
         }
-        getIO().write(getManager().getCollectionCopy().stream()
-                .filter(person -> person.getNationality().compareTo(country) < 0).map(Person::toString)
-                .collect(Collectors.joining("\n")));
-        return new CommandResponse(CommandResult.SUCCESS);
+        return new CommandResponse(CommandResult.SUCCESS,
+                getManager().filter(person -> person.getNationality().compareTo(country) < 0)
+                        .map(Object::toString).collect(Collectors.joining("\n")));
     }
 
     @Override

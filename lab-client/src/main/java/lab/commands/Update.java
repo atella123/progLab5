@@ -1,11 +1,10 @@
 package lab.commands;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import lab.common.data.Person;
 import lab.common.data.PersonCollectionManager;
-import lab.common.exceptions.StringIsNullException;
+import lab.exceptions.StringIsNullException;
 import lab.io.IOManager;
 import lab.parsers.PersonParser;
 
@@ -24,14 +23,13 @@ public final class Update extends CollectionCommand {
         int id;
         try {
             id = Integer.parseInt(arg.replace(" ", ""));
-        } catch (Exception e) {
-            return new CommandResponse(CommandResult.ERROR, "Illegal argument:\t" + arg);
+        } catch (NumberFormatException | NullPointerException e) {
+            return new CommandResponse(CommandResult.ERROR, "Illegal argument");
         }
-        Set<Person> personToUpdate = getManager().getCollectionCopy().stream().filter(p -> p.getID().equals(id))
-                .collect(Collectors.toSet());
-        if (!personToUpdate.isEmpty()) {
+        Optional<Person> personToUpdate = getManager().getPersonByID(id);
+        if (personToUpdate.isPresent()) {
             try {
-                personToUpdate.forEach(p -> getManager().updatePerson(p, PersonParser.parsePerson(getIO())));
+                getManager().updatePerson(personToUpdate.get(), PersonParser.parsePerson(getIO()));
                 return new CommandResponse(CommandResult.SUCCESS);
             } catch (StringIsNullException e) {
                 return new CommandResponse(CommandResult.END, "Person not parsed");

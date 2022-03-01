@@ -26,9 +26,17 @@ public class CommandManager {
     }
 
     public void setIO(IOManager io) {
-        for (Command i : this.getCommands()) {
+        for (Command i : getCommands()) {
             i.setIO(io);
         }
+    }
+
+    public boolean containsValue(Command command) {
+        return commands.containsValue(command);
+    }
+
+    public boolean containsKey(String key) {
+        return commands.containsKey(key);
     }
 
     public IOManager getIO() {

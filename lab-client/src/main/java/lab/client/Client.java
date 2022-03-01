@@ -1,7 +1,9 @@
 package lab.client;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,6 +13,7 @@ import java.util.Scanner;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
 
 import lab.commands.Add;
 import lab.commands.AddIfMax;
@@ -59,8 +62,14 @@ public final class Client {
                 line = bufferedReader.readLine();
             }
             collection = gson.fromJson(jsonBuilder.toString(), collection.getClass());
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
+            System.out.println("Can't find file");
+            return;
+        } catch (IOException e) {
             System.out.println("Error when reading file");
+            return;
+        } catch (JsonParseException e) {
+            System.out.println("Can't read json");
             return;
         }
 

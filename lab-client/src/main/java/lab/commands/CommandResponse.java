@@ -23,9 +23,15 @@ public class CommandResponse {
         this.printableResult = false;
         this.message = null;
         this.result = result;
-        this.changedCollection = true;
-        this.added = added;
-        this.removed = removed;
+        if (added.length != 0 && removed.length != 0) {
+            this.changedCollection = true;
+            this.added = added;
+            this.removed = removed;
+        } else {
+            this.changedCollection = false;
+            this.added = null;
+            this.removed = null;
+        }
     }
 
     public CommandResponse(CommandResult result, String message) {
@@ -41,9 +47,15 @@ public class CommandResponse {
         this.printableResult = true;
         this.message = message;
         this.result = result;
-        this.changedCollection = true;
-        this.added = added;
-        this.removed = removed;
+        if (added.length != 0 && removed.length != 0) {
+            this.changedCollection = true;
+            this.added = added;
+            this.removed = removed;
+        } else {
+            this.changedCollection = false;
+            this.added = null;
+            this.removed = null;
+        }
     }
 
     public boolean hasPrintableResult() {

@@ -18,11 +18,10 @@ public final class MinByCoordinates extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        Optional<Person> minPerson = getManager().getCollectionCopy().stream()
-                .min((person1, person2) -> person2.getCoordinates().compareTo(person1.getCoordinates()));
+        Optional<Person> minPerson = getManager()
+                .getMinPerson((person1, person2) -> person2.getCoordinates().compareTo(person1.getCoordinates()));
         if (minPerson.isPresent()) {
-            getIO().write(minPerson.get().toString());
-            return new CommandResponse(CommandResult.SUCCESS);
+            return new CommandResponse(CommandResult.SUCCESS, minPerson.get().toString());
         }
         return new CommandResponse(CommandResult.ERROR, "Collection is empty");
     }

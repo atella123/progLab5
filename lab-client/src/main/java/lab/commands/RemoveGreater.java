@@ -2,7 +2,7 @@ package lab.commands;
 
 import lab.common.data.Person;
 import lab.common.data.PersonCollectionManager;
-import lab.common.exceptions.StringIsNullException;
+import lab.exceptions.StringIsNullException;
 import lab.io.IOManager;
 import lab.parsers.PersonParser;
 
@@ -24,8 +24,8 @@ public final class RemoveGreater extends CollectionCommand {
         } catch (StringIsNullException e) {
             return new CommandResponse(CommandResult.END, "Person not parsed");
         }
-        getManager().removeIf(person -> p.compareTo(person) < 0);
-        return new CommandResponse(CommandResult.SUCCESS);
+        return new CommandResponse(CommandResult.SUCCESS, new Person[0],
+                getManager().removeIf(person -> p.compareTo(person) < 0).toArray(new Person[0]));
     }
 
     @Override

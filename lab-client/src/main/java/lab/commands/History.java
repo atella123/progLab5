@@ -1,5 +1,7 @@
 package lab.commands;
 
+import java.util.stream.Collectors;
+
 import lab.util.CommandRunner;
 
 public final class History extends Command {
@@ -13,15 +15,8 @@ public final class History extends Command {
 
     @Override
     public CommandResponse execute(String arg) {
-        StringBuilder result = new StringBuilder();
-        for (Command i : commands.getHistory()) {
-            result.append(i)
-                    .append("\n");
-
-        }
-        result.deleteCharAt(result.length() - 1);
-        getIO().write(result.toString());
-        return new CommandResponse(CommandResult.SUCCESS);
+        return new CommandResponse(CommandResult.SUCCESS,
+                commands.getHistory().stream().map(Object::toString).collect(Collectors.joining("\n")));
     }
 
     @Override

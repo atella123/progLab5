@@ -1,6 +1,7 @@
 package lab.commands;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import lab.io.IOManager;
 
@@ -19,14 +20,8 @@ public final class Help extends Command {
 
     @Override
     public CommandResponse execute(String arg) {
-        StringBuilder result = new StringBuilder();
-        for (Command i : commands) {
-            result.append(i.getMan())
-                    .append("\n");
-        }
-        result.deleteCharAt(result.length() - 1);
-        getIO().write(result.toString());
-        return new CommandResponse(CommandResult.SUCCESS);
+        return new CommandResponse(CommandResult.SUCCESS,
+                commands.stream().map(Command::getMan).collect(Collectors.joining("\n")));
     }
 
     @Override

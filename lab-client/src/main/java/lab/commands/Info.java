@@ -15,16 +15,14 @@ public final class Info extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        getIO().write(
-                new StringBuilder()
-                        .append("Collection type: ")
-                        .append(getManager().getCollectionType())
-                        .append("\nInit date: ")
-                        .append(getManager().getInitDate().toString())
-                        .append("\nElement count: ")
-                        .append(getManager().getCollectionCopy().size())
-                        .toString());
-        return new CommandResponse(CommandResult.SUCCESS);
+        return new CommandResponse(CommandResult.SUCCESS, new StringBuilder()
+                .append("Collection type: ")
+                .append(getManager().getCollectionType())
+                .append("\nInit date: ")
+                .append(getManager().getInitDate().toString())
+                .append("\nElement count: ")
+                .append(getManager().getCollection().size())
+                .toString());
     }
 
     @Override

@@ -2,7 +2,7 @@ package lab.commands;
 
 import lab.common.data.Person;
 import lab.common.data.PersonCollectionManager;
-import lab.common.exceptions.StringIsNullException;
+import lab.exceptions.StringIsNullException;
 import lab.io.IOManager;
 import lab.parsers.PersonParser;
 
