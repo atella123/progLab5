@@ -1,7 +1,6 @@
 package lab.client;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -53,9 +52,9 @@ public final class Client {
         StringBuilder jsonBuilder = new StringBuilder();
         Collection<Person> collection = new HashSet<>();
         Gson gson = createGson(collection);
-
+        IOManager io = new IOManager();
         if (args.length == 0) {
-            System.out.println("No args");
+            io.write("No arguments");
             return;
         }
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(args[0]))) {
@@ -66,32 +65,25 @@ public final class Client {
                 line = bufferedReader.readLine();
             }
             collection = gson.fromJson(jsonBuilder.toString(), collection.getClass());
-        } catch (FileNotFoundException e) {
-            System.out.println("Can't find file");
-            return;
         } catch (IOException e) {
-            System.out.println("Error when reading file");
+            io.write("Can't find file");
             return;
         } catch (JsonParseException e) {
-            System.out.println("Can't read json");
+            io.write("Can't read json");
             return;
         }
-
         PersonCollectionManager manager = new PersonCollectionManager(collection);
         CommandManager commandManager = new CommandManager();
         CommandRunner runner = new CommandRunner(commandManager);
-
         commandManager.setCommands(createCommandsMap(manager, gson, runner));
         Scanner scanner = new Scanner(System.in);
-        IOManager io = new IOManager(() -> {
+        io.setReader(() -> {
             System.out.print("% ");
             return scanner.nextLine();
         });
-
         runner.setIO(io);
         runner.run();
         scanner.close();
-
     }
 
     public static Gson createGson(Collection<Person> collection) {
