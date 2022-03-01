@@ -2,6 +2,7 @@ package lab.common.data;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Optional;
@@ -83,7 +84,7 @@ public class PersonCollectionManager {
     }
 
     public Collection<Person> getCollection() {
-        return collection;
+        return Collections.unmodifiableCollection(collection);
     }
 
     public <T> Map<T, Long> groupCounting(Function<Person, T> function) {

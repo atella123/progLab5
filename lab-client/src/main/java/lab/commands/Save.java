@@ -12,20 +12,22 @@ import lab.io.IOManager;
 public final class Save extends CollectionCommand {
 
     private Gson gson;
+    private final File file;
 
-    public Save(PersonCollectionManager manager, Gson gson) {
+    public Save(PersonCollectionManager manager, Gson gson, File file) {
         super(manager);
         this.gson = gson;
+        this.file = file;
     }
 
-    public Save(IOManager io, PersonCollectionManager manager, Gson gson) {
+    public Save(IOManager io, PersonCollectionManager manager, Gson gson, File file) {
         super(io, manager);
         this.gson = gson;
+        this.file = file;
     }
 
     @Override
     public CommandResponse execute(String arg) {
-        File file = new File(arg);
         if (file.exists() && file.isFile()) {
             String json = gson.toJson(getManager().getCollection());
             try (FileWriter fileWriter = new FileWriter(file)) {

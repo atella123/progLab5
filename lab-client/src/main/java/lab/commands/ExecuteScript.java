@@ -30,21 +30,24 @@ public final class ExecuteScript extends CollectionCommand {
     @Override
     public CommandResponse execute(String arg) {
         File file = new File(arg);
-        bannedFiles.push(file);
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file));) {
-            oldIO.push(new IOManager[] {runner.getIO(), runner.getCommandManager().getIO()});
-            IOManager newIO = new IOManager(createReader(bufferedReader), getIO().getWritter());
-            runner.setIO(newIO);
-            runner.getCommandManager().setIO(newIO);
-            runner.run();
-            runner.setIO(oldIO.peek()[0]);
-            runner.getCommandManager().setIO(oldIO.pop()[1]);
-            return new CommandResponse(CommandResult.SUCCESS);
-        } catch (IOException e) {
-            return new CommandResponse(CommandResult.ERROR, "Unable to read file");
-        } finally {
-            bannedFiles.pop();
+        if (!bannedFiles.contains(file)) {
+            bannedFiles.push(file);
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file));) {
+                oldIO.push(new IOManager[] { runner.getIO(), runner.getCommandManager().getIO() });
+                IOManager newIO = new IOManager(createReader(bufferedReader), getIO().getWritter());
+                runner.setIO(newIO);
+                runner.getCommandManager().setIO(newIO);
+                runner.run();
+                runner.setIO(oldIO.peek()[0]);
+                runner.getCommandManager().setIO(oldIO.pop()[1]);
+                return new CommandResponse(CommandResult.SUCCESS);
+            } catch (IOException e) {
+                return new CommandResponse(CommandResult.ERROR, "Unable to read file");
+            } finally {
+                bannedFiles.pop();
+            }
         }
+        return new CommandResponse(CommandResult.ERROR, "File already opened");
     }
 
     private Reader createReader(BufferedReader bufferedReader) {

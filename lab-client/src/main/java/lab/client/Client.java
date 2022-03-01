@@ -1,6 +1,7 @@
 package lab.client;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -57,25 +58,29 @@ public final class Client {
             io.write("No arguments");
             return;
         }
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(args[0]))) {
+        File file = new File(args[0]);
+        if (!file.exists() || !file.isFile()) {
+            return;
+        }
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             String line = bufferedReader.readLine();
             while (line != null) {
                 jsonBuilder.append(line);
                 jsonBuilder.append("\n");
                 line = bufferedReader.readLine();
             }
-            collection = gson.fromJson(jsonBuilder.toString(), collection.getClass());
-        } catch (IOException e) {
+            String result = jsonBuilder.toString();
+            if (result != null) {
+                collection = gson.fromJson(result, collection.getClass());
+            }
+        } catch (IOException | JsonParseException e) {
             io.write("Can't find file");
-            return;
-        } catch (JsonParseException e) {
-            io.write("Can't read json");
             return;
         }
         PersonCollectionManager manager = new PersonCollectionManager(collection);
         CommandManager commandManager = new CommandManager();
         CommandRunner runner = new CommandRunner(commandManager);
-        commandManager.setCommands(createCommandsMap(manager, gson, runner));
+        commandManager.setCommands(createCommandsMap(manager, gson, runner, file));
         Scanner scanner = new Scanner(System.in);
         io.setReader(() -> {
             System.out.print("% ");
@@ -98,7 +103,7 @@ public final class Client {
     }
 
     public static Map<String, Command> createCommandsMap(PersonCollectionManager manager, Gson gson,
-            CommandRunner runner) {
+            CommandRunner runner, File file) {
         HashMap<String, Command> commands = new HashMap<>();
         commands.put("help", new Help(commands.values()));
         commands.put("info", new Info(manager));
@@ -107,7 +112,7 @@ public final class Client {
         commands.put("update", new Update(manager));
         commands.put("remove_by_id", new RemoveByID(manager));
         commands.put("clear", new Clear(manager));
-        commands.put("save", new Save(manager, gson));
+        commands.put("save", new Save(manager, gson, file));
         commands.put("execute_script", new ExecuteScript(manager, runner));
         commands.put("exit", new Exit());
         commands.put("add_if_max", new AddIfMax(manager));
