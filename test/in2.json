@@ -1,0 +1,110 @@
+[
+  {
+    "id": 6,
+    "name": "F",
+    "coordinates": {
+      "x": 10.0,
+      "y": 11
+    },
+    "creationDate": "2022-02-24",
+    "height": 185,
+    "passportID": "passportID1111114",
+    "eyeColor": "BLUE",
+    "nationality": "CHINA",
+    "location": {
+      "x": 10.0,
+      "y": 11,
+      "name": "thai"
+    }
+  },
+  {
+    "id": 10,
+    "name": "EEEE",
+    "coordinates": {
+      "x": 8.0,
+      "y": 9
+    },
+    "creationDate": "2022-02-01",
+    "height": 184,
+    "passportID": "passportID1111111",
+    "eyeColor": "WHITE",
+    "nationality": "SPAIN",
+    "location": {
+      "x": 9.0,
+      "y": 9,
+      "name": "thai"
+    }
+  },
+  {
+    "id": 4,
+    "name": "A",
+    "coordinates": {
+      "x": 112312.125,
+      "y": 2132396712
+    },
+    "creationDate": "2022-02-24",
+    "height": 180,
+    "passportID": "passportID1111112",
+    "eyeColor": "RED",
+    "nationality": "THAILAND",
+    "location": {
+      "x": 1.0,
+      "y": 2,
+      "name": "thai"
+    }
+  },
+  {
+    "id": 5,
+    "name": "B",
+    "coordinates": {
+      "x": 2.0,
+      "y": 3
+    },
+    "creationDate": "2022-02-24",
+    "height": 181,
+    "passportID": "passportID1111113",
+    "eyeColor": "BLUE",
+    "nationality": "CHINA",
+    "location": {
+      "x": 3.0,
+      "y": 4,
+      "name": "thai"
+    }
+  },
+  {
+    "id": 11,
+    "name": "123124",
+    "coordinates": {
+      "x": 1.0,
+      "y": 2
+    },
+    "creationDate": "2022-02-26",
+    "height": 123,
+    "passportID": "abcdefghij",
+    "eyeColor": "BROWN",
+    "nationality": "SPAIN",
+    "location": {
+      "x": 12.31231,
+      "y": 1231,
+      "name": "14131231132"
+    }
+  },
+  {
+    "id": 3,
+    "name": "C",
+    "coordinates": {
+      "x": 4.0,
+      "y": 5
+    },
+    "creationDate": "2022-02-24",
+    "height": 182,
+    "passportID": "passportID1111112",
+    "eyeColor": "BROWN",
+    "nationality": "INDIA",
+    "location": {
+      "x": 5.0,
+      "y": 6,
+      "name": "thai"
+    }
+  }
+]

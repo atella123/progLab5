@@ -1,0 +1,14 @@
+show
+add_if_max
+zheka
+1
+2
+180
+12345678910
+red
+china
+1
+2
+sad
+execute_script ../test/script1.txt
+history
