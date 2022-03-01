@@ -54,6 +54,10 @@ public final class Client {
         Collection<Person> collection = new HashSet<>();
         Gson gson = createGson(collection);
 
+        if (args.length == 0) {
+            System.out.println("No args");
+            return;
+        }
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(args[0]))) {
             String line = bufferedReader.readLine();
             while (line != null) {
