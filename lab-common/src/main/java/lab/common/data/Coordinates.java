@@ -83,7 +83,7 @@ public class Coordinates implements Comparable<Coordinates> {
 
     @Override
     public int compareTo(Coordinates coordinates) {
-        return (Float.floatToIntBits(this.x) + this.y) - (Float.floatToIntBits(coordinates.x) + coordinates.y);
+        return Math.round(this.x - coordinates.x) + this.y - coordinates.y;
     }
 
     public static final class Validator {

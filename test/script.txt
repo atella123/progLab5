@@ -10,5 +10,5 @@ china
 1
 2
 sad
-execute_script ../test/script1.txt
+execute_script script1.txt
 history

@@ -19,19 +19,23 @@ public final class RemoveByID extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        Integer id;
-        if (Objects.nonNull(arg)) {
+        Integer id = null;
+        CommandResponse commandResponse = null;
+        if (Objects.isNull(arg)) {
+            commandResponse = new CommandResponse(CommandResult.ERROR, "Integer type argument needed");
+        } else {
             try {
                 id = Integer.parseInt(arg.replace(" ", ""));
             } catch (NumberFormatException e) {
-                return new CommandResponse(CommandResult.ERROR, "Illegal argument");
+                commandResponse = new CommandResponse(CommandResult.ERROR, "Illegal argument");
             }
-        } else {
-            return new CommandResponse(CommandResult.ERROR, "Illegal argument");
+        }
+        if (Objects.nonNull(commandResponse)) {
+            return commandResponse;
         }
         Optional<Person> person = getManager().removePersonByID(id);
         if (person.isPresent()) {
-            return new CommandResponse(CommandResult.SUCCESS, new Person[0], new Person[] {person.get()});
+            return new CommandResponse(CommandResult.SUCCESS, new Person[0], new Person[] { person.get() });
         }
         return new CommandResponse(CommandResult.ERROR, "No such element");
 

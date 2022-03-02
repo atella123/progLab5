@@ -19,7 +19,7 @@ public final class MinByCoordinates extends CollectionCommand {
     @Override
     public CommandResponse execute(String arg) {
         Optional<Person> minPerson = getManager()
-                .getMinPerson((person1, person2) -> person2.getCoordinates().compareTo(person1.getCoordinates()));
+                .getMinPerson((person1, person2) -> person1.getCoordinates().compareTo(person2.getCoordinates()));
         if (minPerson.isPresent()) {
             return new CommandResponse(CommandResult.SUCCESS, minPerson.get().toString());
         }

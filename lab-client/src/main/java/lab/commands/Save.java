@@ -28,16 +28,16 @@ public final class Save extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        if (file.exists() && file.isFile()) {
+        if (file.exists() && file.canWrite()) {
             String json = gson.toJson(getManager().getCollection());
             try (FileWriter fileWriter = new FileWriter(file)) {
                 fileWriter.write(json);
             } catch (IOException e) {
-                return new CommandResponse(CommandResult.ERROR, "Can't write to file");
+                return new CommandResponse(CommandResult.ERROR, "File is a directory");
             }
             return new CommandResponse(CommandResult.SUCCESS);
         }
-        return new CommandResponse(CommandResult.ERROR, "File not found");
+        return new CommandResponse(CommandResult.ERROR, "Can't write to file");
     }
 
     @Override

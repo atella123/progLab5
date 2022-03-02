@@ -1,5 +1,6 @@
 package lab.commands;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import lab.common.data.Person;
@@ -20,11 +21,19 @@ public final class Update extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
-        int id;
-        try {
-            id = Integer.parseInt(arg.replace(" ", ""));
-        } catch (NumberFormatException | NullPointerException e) {
-            return new CommandResponse(CommandResult.ERROR, "Illegal argument");
+        Integer id = null;
+        CommandResponse commandResponse = null;
+        if (Objects.isNull(arg)) {
+            commandResponse = new CommandResponse(CommandResult.ERROR, "Integer type argument needed");
+        } else {
+            try {
+                id = Integer.parseInt(arg.replace(" ", ""));
+            } catch (NumberFormatException e) {
+                commandResponse = new CommandResponse(CommandResult.ERROR, "Illegal argument");
+            }
+        }
+        if (Objects.nonNull(commandResponse)) {
+            return commandResponse;
         }
         Optional<Person> personToUpdate = getManager().getPersonByID(id);
         if (personToUpdate.isPresent()) {
@@ -35,7 +44,7 @@ public final class Update extends CollectionCommand {
                 return new CommandResponse(CommandResult.END, "Person not parsed");
             }
         }
-        return new CommandResponse(CommandResult.ERROR, "No element with id (" + id + ") is present");
+        return new CommandResponse(CommandResult.ERROR, "No element with id (" + arg.replace(" ", "") + ") is present");
     }
 
     @Override

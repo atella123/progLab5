@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 
 import com.google.gson.Gson;
@@ -48,33 +49,16 @@ public final class Client {
     private Client() {
     }
 
-    @SuppressWarnings("unchecked")
     public static void main(String[] args) {
-        StringBuilder jsonBuilder = new StringBuilder();
-        Collection<Person> collection = new HashSet<>();
-        Gson gson = createGson(collection);
         IOManager io = new IOManager();
         if (args.length == 0) {
             io.write("No arguments");
             return;
         }
         File file = new File(args[0]);
-        if (!file.exists() || !file.isFile()) {
-            return;
-        }
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
-            String line = bufferedReader.readLine();
-            while (line != null) {
-                jsonBuilder.append(line);
-                jsonBuilder.append("\n");
-                line = bufferedReader.readLine();
-            }
-            String result = jsonBuilder.toString();
-            if (result != null) {
-                collection = gson.fromJson(result, collection.getClass());
-            }
-        } catch (IOException | JsonParseException e) {
-            io.write("Can't find file");
+        Gson gson = createGson(new HashSet<Person>());
+        Collection<Person> collection = readCollectionFromFile(file, gson, io);
+        if (Objects.isNull(collection)) {
             return;
         }
         PersonCollectionManager manager = new PersonCollectionManager(collection);
@@ -89,6 +73,32 @@ public final class Client {
         runner.setIO(io);
         runner.run();
         scanner.close();
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Collection<Person> readCollectionFromFile(File file, Gson gson, IOManager io) {
+        Collection<Person> collection = new HashSet<>();
+        StringBuilder jsonBuilder = new StringBuilder();
+        if (file.exists() && file.isFile()) {
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+                String line = bufferedReader.readLine();
+                while (line != null) {
+                    jsonBuilder.append(line);
+                    jsonBuilder.append("\n");
+                    line = bufferedReader.readLine();
+                }
+                String result = jsonBuilder.toString().trim();
+                if (result.length() != 0) {
+                    return gson.fromJson(result, collection.getClass());
+                }
+                io.write("File is empty");
+            } catch (IOException | JsonParseException e) {
+                io.write("Can't read collection from file");
+            }
+        } else {
+            io.write("Can't find file");
+        }
+        return null;
     }
 
     public static Gson createGson(Collection<Person> collection) {

@@ -1,10 +1,12 @@
 package lab.commands;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import lab.common.data.Country;
 import lab.common.data.PersonCollectionManager;
 import lab.io.IOManager;
+import lab.util.EnumUtil;
 
 public final class FilterLessThanNationality extends CollectionCommand {
 
@@ -18,12 +20,15 @@ public final class FilterLessThanNationality extends CollectionCommand {
 
     @Override
     public CommandResponse execute(String arg) {
+        if (Objects.isNull(arg)) {
+            return new CommandResponse(CommandResult.ERROR, "Country type argument needed");
+        }
         Country country;
-        try {
-            country = Country.valueOf(arg.toUpperCase());
-        } catch (IllegalArgumentException | NullPointerException e) {
+        arg = arg.trim().toUpperCase();
+        if (!EnumUtil.isEnumValue(arg, Country.class)) {
             return new CommandResponse(CommandResult.ERROR, "Illegal argument");
         }
+        country = Country.valueOf(arg.toUpperCase());
         return new CommandResponse(CommandResult.SUCCESS,
                 getManager().filter(person -> person.getNationality().compareTo(country) < 0)
                         .map(Object::toString).collect(Collectors.joining("\n")));
