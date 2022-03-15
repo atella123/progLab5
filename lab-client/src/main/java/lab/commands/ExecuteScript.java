@@ -33,7 +33,7 @@ public final class ExecuteScript extends CollectionCommand {
         if (!bannedFiles.contains(file)) {
             bannedFiles.push(file);
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file));) {
-                oldIO.push(new IOManager[] { runner.getIO(), runner.getCommandManager().getIO() });
+                oldIO.push(new IOManager[] {runner.getIO(), runner.getCommandManager().getIO()});
                 IOManager newIO = new IOManager(createReader(bufferedReader), getIO().getWritter());
                 runner.setIO(newIO);
                 runner.getCommandManager().setIO(newIO);

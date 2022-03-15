@@ -1,8 +1,8 @@
 package lab.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.concurrent.ArrayBlockingQueue;
 
 import lab.commands.Command;
 import lab.commands.CommandResponse;
@@ -11,10 +11,10 @@ import lab.io.IOManager;
 
 public class CommandRunner {
 
-    private static final Integer HISTORY_SIZE = 11;
+    private static final int HISTORY_SIZE = 11;
     private IOManager io;
     private CommandManager commands;
-    private ArrayBlockingQueue<Command> history = new ArrayBlockingQueue<>(HISTORY_SIZE);
+    private ArrayList<Command> history = new ArrayList<>(HISTORY_SIZE);
 
     public CommandRunner(CommandManager commands) {
         this.io = new IOManager();
@@ -48,8 +48,8 @@ public class CommandRunner {
     }
 
     public CommandResponse runCommand(Command cmd, String arg) {
-        if (history.remainingCapacity() == 0) {
-            history.poll();
+        if (history.size() == HISTORY_SIZE) {
+            history.remove(HISTORY_SIZE);
         }
         history.add(cmd);
         return cmd.execute(arg);

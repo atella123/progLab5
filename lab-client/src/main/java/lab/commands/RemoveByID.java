@@ -35,7 +35,7 @@ public final class RemoveByID extends CollectionCommand {
         }
         Optional<Person> person = getManager().removePersonByID(id);
         if (person.isPresent()) {
-            return new CommandResponse(CommandResult.SUCCESS, new Person[0], new Person[] { person.get() });
+            return new CommandResponse(CommandResult.SUCCESS, new Person[0], new Person[] {person.get()});
         }
         return new CommandResponse(CommandResult.ERROR, "No such element");
 

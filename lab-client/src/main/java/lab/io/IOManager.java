@@ -1,11 +1,18 @@
 package lab.io;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class IOManager {
 
     private Scanner scanner = new Scanner(System.in);
-    private Reader reader = scanner::nextLine;
+    private Reader reader = () -> {
+        String res = scanner.nextLine();
+        if (Objects.nonNull(res)) {
+            return res;
+        }
+        return "";
+    };
     private Writter writter = System.out::println;
 
     public IOManager(Writter writter) {

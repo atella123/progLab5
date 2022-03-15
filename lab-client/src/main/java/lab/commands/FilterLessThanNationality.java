@@ -24,11 +24,11 @@ public final class FilterLessThanNationality extends CollectionCommand {
             return new CommandResponse(CommandResult.ERROR, "Country type argument needed");
         }
         Country country;
-        arg = arg.trim().toUpperCase();
-        if (!EnumUtil.isEnumValue(arg, Country.class)) {
+        String formattedArg = arg.trim().toUpperCase();
+        if (!EnumUtil.isEnumValue(formattedArg, Country.class)) {
             return new CommandResponse(CommandResult.ERROR, "Illegal argument");
         }
-        country = Country.valueOf(arg.toUpperCase());
+        country = Country.valueOf(formattedArg);
         return new CommandResponse(CommandResult.SUCCESS,
                 getManager().filter(person -> person.getNationality().compareTo(country) < 0)
                         .map(Object::toString).collect(Collectors.joining("\n")));

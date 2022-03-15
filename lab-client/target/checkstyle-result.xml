@@ -1,3 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="8.37">
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/parsers/PersonParser.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/parsers/CoordinatesParser.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/parsers/LocationParser.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/util/DataReader.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/util/StringConverter.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/util/CommandRunner.java">
+<error line="63" column="24" severity="error" message="&apos;{&apos; is followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.NoWhitespaceAfterCheck"/>
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/util/EnumUtil.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/util/CommandManager.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/io/Writter.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/io/Reader.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/io/IOManager.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/exceptions/UnableToConvertStringException.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/exceptions/StringIsNullException.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/RemoveByID.java">
+<error line="38" column="91" severity="error" message="&apos;{&apos; is followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.NoWhitespaceAfterCheck"/>
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/Show.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/ExecuteScript.java">
+<error line="36" column="44" severity="error" message="&apos;{&apos; is followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.NoWhitespaceAfterCheck"/>
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/Update.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/Help.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/Info.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/CollectionCommand.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/Add.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/Command.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/GroupCountingByPassportID.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/FilterLessThanNationality.java">
+<error line="27" column="13" severity="error" message="Assignment of parameter &apos;arg&apos; is not allowed." source="com.puppycrawl.tools.checkstyle.checks.coding.ParameterAssignmentCheck"/>
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/History.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/Save.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/CommandResponse.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/Clear.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/AddIfMax.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/CommandResult.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/RemoveGreater.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/MinByCoordinates.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/commands/Exit.java">
+</file>
+<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-client/src/main/java/lab/client/Client.java">
+</file>
 </checkstyle>

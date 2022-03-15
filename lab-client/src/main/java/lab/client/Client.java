@@ -56,7 +56,7 @@ public final class Client {
             return;
         }
         File file = new File(args[0]);
-        Gson gson = createGson(new HashSet<Person>());
+        Gson gson = createGson();
         Collection<Person> collection = readCollectionFromFile(file, gson, io);
         if (Objects.isNull(collection)) {
             return;
@@ -77,7 +77,6 @@ public final class Client {
 
     @SuppressWarnings("unchecked")
     public static Collection<Person> readCollectionFromFile(File file, Gson gson, IOManager io) {
-        Collection<Person> collection = new HashSet<>();
         StringBuilder jsonBuilder = new StringBuilder();
         if (file.exists() && file.isFile()) {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
@@ -89,7 +88,7 @@ public final class Client {
                 }
                 String result = jsonBuilder.toString().trim();
                 if (result.length() != 0) {
-                    return gson.fromJson(result, collection.getClass());
+                    return gson.fromJson(result, HashSet.class);
                 }
                 io.write("File is empty");
             } catch (IOException | JsonParseException e) {
@@ -101,11 +100,11 @@ public final class Client {
         return null;
     }
 
-    public static Gson createGson(Collection<Person> collection) {
+    public static Gson createGson() {
         return new GsonBuilder().setPrettyPrinting()
-                .registerTypeAdapter(collection.getClass(),
+                .registerTypeAdapter(HashSet.class,
                         new PersonCollectionSerealizer())
-                .registerTypeAdapter(collection.getClass(),
+                .registerTypeAdapter(HashSet.class,
                         new PersonCollectionDeserializer())
                 .registerTypeAdapter(Person.class, new PersonSerializer())
                 .registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
