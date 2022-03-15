@@ -1,18 +1,12 @@
 package lab.io;
 
-import java.util.Objects;
-import java.util.Scanner;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class IOManager {
 
-    private Scanner scanner = new Scanner(System.in);
-    private Reader reader = () -> {
-        String res = scanner.nextLine();
-        if (Objects.nonNull(res)) {
-            return res;
-        }
-        return "";
-    };
+    private InputStreamReader inputStream = new InputStreamReader(System.in);
+    private Reader reader = defaultConsoleReader();
     private Writter writter = System.out::println;
 
     public IOManager(Writter writter) {
@@ -59,6 +53,25 @@ public class IOManager {
     public String readLine() {
         return reader.readLine();
     }
+
+    public Reader defaultConsoleReader() {
+        return () -> {
+            try {
+                StringBuilder stringBuilder = new StringBuilder();
+                int nextChar = inputStream.read();
+                while (nextChar != -1) {
+                    stringBuilder.append((char) nextChar);
+                    if ((char) nextChar == '\n') {
+                        return stringBuilder.toString();
+                    }
+                    nextChar = inputStream.read();
+                }
+                return "";
+            } catch (IOException e) {
+                return "";
+            }
+        };
+    };
 
     @Override
     public int hashCode() {

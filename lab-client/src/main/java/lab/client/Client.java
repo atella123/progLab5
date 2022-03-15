@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Scanner;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -49,7 +48,7 @@ public final class Client {
     private Client() {
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         IOManager io = new IOManager();
         if (args.length == 0) {
             io.write("No arguments");
@@ -65,14 +64,12 @@ public final class Client {
         CommandManager commandManager = new CommandManager();
         CommandRunner runner = new CommandRunner(commandManager);
         commandManager.setCommands(createCommandsMap(manager, gson, runner, file));
-        Scanner scanner = new Scanner(System.in);
         io.setReader(() -> {
             System.out.print("% ");
-            return scanner.nextLine();
+            return io.defaultConsoleReader().readLine();
         });
         runner.setIO(io);
         runner.run();
-        scanner.close();
     }
 
     @SuppressWarnings("unchecked")
