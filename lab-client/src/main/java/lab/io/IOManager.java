@@ -59,14 +59,11 @@ public class IOManager {
             try {
                 StringBuilder stringBuilder = new StringBuilder();
                 int nextChar = inputStream.read();
-                while (nextChar != -1) {
+                while (nextChar != -1 && nextChar != Integer.valueOf('\n')) {
                     stringBuilder.append((char) nextChar);
-                    if ((char) nextChar == '\n') {
-                        return stringBuilder.toString();
-                    }
                     nextChar = inputStream.read();
                 }
-                return "";
+                return stringBuilder.toString();
             } catch (IOException e) {
                 return "";
             }

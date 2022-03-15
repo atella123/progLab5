@@ -1,5 +1,41 @@
 [
   {
+    "id": 5,
+    "name": "B",
+    "coordinates": {
+      "x": 2.0,
+      "y": 3
+    },
+    "creationDate": "2022-02-24",
+    "height": 181,
+    "passportID": "passportID1111113",
+    "eyeColor": "BLUE",
+    "nationality": "CHINA",
+    "location": {
+      "x": 3.0,
+      "y": 4,
+      "name": "thai"
+    }
+  },
+  {
+    "id": 3,
+    "name": "C",
+    "coordinates": {
+      "x": 4.0,
+      "y": 5
+    },
+    "creationDate": "2022-02-24",
+    "height": 182,
+    "passportID": "passportID1111112",
+    "eyeColor": "BROWN",
+    "nationality": "INDIA",
+    "location": {
+      "x": 5.0,
+      "y": 6,
+      "name": "thai"
+    }
+  },
+  {
     "id": 6,
     "name": "F",
     "coordinates": {
@@ -36,42 +72,6 @@
     }
   },
   {
-    "id": 4,
-    "name": "A",
-    "coordinates": {
-      "x": 112312.125,
-      "y": 2132396712
-    },
-    "creationDate": "2022-02-24",
-    "height": 180,
-    "passportID": "passportID1111112",
-    "eyeColor": "RED",
-    "nationality": "THAILAND",
-    "location": {
-      "x": 1.0,
-      "y": 2,
-      "name": "thai"
-    }
-  },
-  {
-    "id": 5,
-    "name": "B",
-    "coordinates": {
-      "x": 2.0,
-      "y": 3
-    },
-    "creationDate": "2022-02-24",
-    "height": 181,
-    "passportID": "passportID1111113",
-    "eyeColor": "BLUE",
-    "nationality": "CHINA",
-    "location": {
-      "x": 3.0,
-      "y": 4,
-      "name": "thai"
-    }
-  },
-  {
     "id": 11,
     "name": "123124",
     "coordinates": {
@@ -90,20 +90,20 @@
     }
   },
   {
-    "id": 3,
-    "name": "C",
+    "id": 4,
+    "name": "A",
     "coordinates": {
-      "x": 4.0,
-      "y": 5
+      "x": 112312.125,
+      "y": 2132396712
     },
     "creationDate": "2022-02-24",
-    "height": 182,
+    "height": 180,
     "passportID": "passportID1111112",
-    "eyeColor": "BROWN",
-    "nationality": "INDIA",
+    "eyeColor": "RED",
+    "nationality": "THAILAND",
     "location": {
-      "x": 5.0,
-      "y": 6,
+      "x": 1.0,
+      "y": 2,
       "name": "thai"
     }
   }

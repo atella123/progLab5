@@ -48,7 +48,7 @@ public final class Client {
     private Client() {
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         IOManager io = new IOManager();
         if (args.length == 0) {
             io.write("No arguments");

@@ -60,7 +60,7 @@ public class CommandRunner {
     }
 
     public String[] parseCommand(String arg) {
-        String[] cmd = { arg.split("\\s+", 2)[0].replace(" ", ""), null };
+        String[] cmd = {arg.split("\\s+", 2)[0].replace(" ", ""), null};
         if (arg.matches("\\w+\\s+.+")) {
             cmd[1] = arg.split(" +", 2)[1];
         }

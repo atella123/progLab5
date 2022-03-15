@@ -1,27 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="8.37">
-<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-common/src/main/java/lab/common/exceptions/IllegalFieldValueException.java">
-</file>
-<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-common/src/main/java/lab/common/json/PersonCollectionDeserializer.java">
-</file>
-<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-common/src/main/java/lab/common/json/LocalDateDeserializer.java">
-</file>
-<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-common/src/main/java/lab/common/json/PersonDeserializer.java">
-</file>
-<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-common/src/main/java/lab/common/json/PersonCollectionSerealizer.java">
-</file>
-<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-common/src/main/java/lab/common/json/PersonSerializer.java">
-</file>
-<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-common/src/main/java/lab/common/data/Country.java">
-</file>
-<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-common/src/main/java/lab/common/data/PersonCollectionManager.java">
-</file>
-<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-common/src/main/java/lab/common/data/Coordinates.java">
-</file>
-<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-common/src/main/java/lab/common/data/Person.java">
-</file>
-<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-common/src/main/java/lab/common/data/Location.java">
-</file>
-<file name="/Volumes/GoogleDrive/Другие компьютеры/PC (1)/hw/sem2/proga/lab5 (1)/progLab5-master/lab-common/src/main/java/lab/common/data/Color.java">
-</file>
 </checkstyle>
